@@ -50,9 +50,9 @@ module gemm_accelerator_top #(
   output logic        [    AddrWidth-1:0] sram_a_addr_o,
   output logic        [    AddrWidth-1:0] sram_b_addr_o,
   output logic        [    AddrWidth-1:0] sram_c_addr_o,
-  input  logic signed [  InDataWidth-1:0] sram_a_rdata_i[0:M*K-1],
-  input  logic signed [  InDataWidth-1:0] sram_b_rdata_i[0:N*K-1],
-  output logic signed [ OutDataWidth-1:0] sram_c_wdata_o[0:M*N-1],
+  input  logic signed [  InDataWidth*M*K-1:0] sram_a_rdata_i,
+  input  logic signed [  InDataWidth*K*N-1:0] sram_b_rdata_i,
+  output logic signed [ OutDataWidth*M*N-1:0] sram_c_wdata_o,
   output logic                            sram_c_we_o,
   output logic                            done_o
 );
@@ -170,9 +170,9 @@ module gemm_accelerator_top #(
   genvar m, k, n, i;
 
   for (n = 0; n < N; n++) begin : gem_mac_pe_n
-    logic [InDataWidth-1:0] temp[K];
+    logic [K*InDataWidth-1:0] temp;
     for (i = 0; i < K; i++) begin : gen_weights
-      assign temp[i] = sram_b_rdata_i[i*N];
+      assign temp[i*InDataWidth+:InDataWidth] = sram_b_rdata_i[i*InDataWidth*N+:InDataWidth];
     end
     for (m = 0; m < M; m++) begin : gem_mac_pe_m
 
@@ -183,7 +183,7 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[K*m+:K] ),
+        .a_i          ( sram_a_rdata_i[K*m*InDataWidth+:K*InDataWidth] ),
         .b_i          ( temp                   ),
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),

@@ -34,8 +34,8 @@ module general_mac_pe #(
   input  logic clk_i,
   input  logic rst_ni,
   // Input operands
-  input  logic signed [NumInputs-1:0][InDataWidth-1:0] a_i,
-  input  logic signed [NumInputs-1:0][InDataWidth-1:0] b_i,
+  input  logic signed [NumInputs*InDataWidth-1:0] a_i,
+  input  logic signed [NumInputs*InDataWidth-1:0] b_i,
   // Valid signals for inputs
   input  logic a_valid_i,
   input  logic b_valid_i,
@@ -45,6 +45,16 @@ module general_mac_pe #(
   // Output accumulation
   output logic signed [OutDataWidth-1:0] c_o
 );
+
+  logic signed [NumInputs-1:0][InDataWidth-1:0] a_array;
+  logic signed [NumInputs-1:0][InDataWidth-1:0] b_array;
+  always_comb begin
+    genvar i;
+    for (int i = 0; i < NumInputs; i++) begin
+      a_array[i] = a_i[i*InDataWidth +: InDataWidth];
+      b_array[i] = b_i[i*InDataWidth +: InDataWidth];
+    end
+  end
 
   // Wires and logic
   logic acc_valid;
@@ -56,7 +66,7 @@ module general_mac_pe #(
   always_comb begin
     mult_result = '0;
     for (int i = 0; i < NumInputs; i++) begin
-      mult_result += $signed(a_i[i]) * $signed(b_i[i]);
+      mult_result += $signed(a_array[i]) * $signed(b_array[i]);
     end
   end
 

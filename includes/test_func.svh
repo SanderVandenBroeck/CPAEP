@@ -13,7 +13,7 @@ function automatic void gemm_golden(
   int signed acc;
 
   for (m = 0; m < M; m++) begin
-    for (n = 0; n<N; n++) begin
+    for (n = 0; n < N; n++) begin
       acc = 0;
       for (k = 0; k < K; k++) begin
         acc += $signed(A_i[m*K + k]) * $signed(B_i[k*N + n]);

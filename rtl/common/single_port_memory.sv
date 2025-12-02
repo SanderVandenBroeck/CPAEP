@@ -25,13 +25,13 @@
 // DataWidth parameters to suit your design requirements.
 //-----------------------------
 module single_port_memory #(
-    parameter int unsigned DataWidth = 8,
     parameter int unsigned MemoryRows = 32,
     parameter int unsigned MemoryColumns = 32,
     parameter int unsigned DataRows = 4,
     parameter int unsigned DataColumns = 4,
     parameter int unsigned WriteDataRows = 4,
     parameter int unsigned WriteDataColumns = 4,
+    parameter int unsigned DataWidth = 8*DataColumns*DataRows,
     parameter int unsigned DataDepth = MemoryRows*MemoryColumns,
     parameter int unsigned AddrWidth = (DataDepth <= 1) ? 1 : $clog2(DataDepth)
 ) (
@@ -40,20 +40,17 @@ module single_port_memory #(
     input  logic        [6:0]           MatrixCol,
     input  logic        [AddrWidth-1:0] mem_addr_i,
     input  logic                        mem_we_i,
-    input  logic signed [DataWidth-1:0] mem_wr_data_i[0:WriteDataRows*WriteDataColumns-1],
-    output logic signed [DataWidth-1:0] mem_rd_data_o[0:DataRows*DataColumns-1]
+    input  logic signed [DataWidth-1:0] mem_wr_data_i,
+    output logic signed [DataWidth-1:0] mem_rd_data_o
 );
 
   // Memory array
   logic signed [DataWidth-1:0] memory[DataDepth];
-  logic signed [DataWidth-1:0] mem_rd_data_o[DataRows*DataColumns]
 
   // Memory read access
   genvar i, j; // i is loop variable for rows and j for the columns
   for (i = 0; i < DataRows-1; i++) begin
-    for (j = 0; j < DataColumns-1; j++) begin
-      assign mem_rd_data_o[i] = memory[mem_addr_i+i*MatrixCol+j];
-    end
+    assign mem_rd_data_o[i*8*DataColumns+:8*DataColumns] = memory[mem_addr_i+i*MatrixCol+:DataColumns];
   end
 
   // Memory write access
@@ -67,11 +64,9 @@ module single_port_memory #(
   // Memory write access
   genvar i, j; // i is loop variable for rows and j for the columns
   always_ff @(posedge clk_i) begin
-    if( mem_we_i) begin
+    if( mem_we_i ) begin
       for (i = 0; i < WriteDataRows-1; i++) begin
-        for (j = 0; j < WriteDataColumns-1; j++) begin
-          assign memory[mem_addr_i+i*MatrixCol+j] <= mem_wr_data_i[i];
-        end
+        assign memory[mem_addr_i+i*MatrixCol+:WriteDataColumns] <= mem_wr_data_i[MatrixCol*8*i+:MatrixCol*8];
       end
     end
   end

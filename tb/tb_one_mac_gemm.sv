@@ -25,8 +25,31 @@ module tb_one_mac_gemm;
   parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
   parameter int unsigned SizeAddrWidth = 8;
 
+  // added ourselves
+  parameter int unsigned M = 4;
+  parameter int unsigned N = 4;
+  parameter int unsigned K = 4;
+  parameter int unsigned MemoryRowsA = 32;
+  parameter int unsigned MemoryColumnsA = 32;
+  parameter int unsigned DataRowsA = K;
+  parameter int unsigned DataColumnsA = M;
+  parameter int unsigned WriteDataRowsA = 0;
+  parameter int unsigned WriteDataColumnsA = 0;
+  parameter int unsigned MemoryRowsB = 32;
+  parameter int unsigned MemoryColumnsB = 32;
+  parameter int unsigned DataRowsB = K;
+  parameter int unsigned DataColumnsB = N;
+  parameter int unsigned WriteDataRowsB = 0;
+  parameter int unsigned WriteDataColumnsB = 0;
+  parameter int unsigned MemoryRowsC = 32;
+  parameter int unsigned MemoryColumnsC = 32;
+  parameter int unsigned DataRowsC = M;
+  parameter int unsigned DataColumnsC = N;
+  parameter int unsigned WriteDataRowsC = M;
+  parameter int unsigned WriteDataColumnsC = N;
+  
   // Test Parameters
-  parameter int unsigned MaxNum   = 32;
+  parameter int unsigned MaxNum   = 64;
   parameter int unsigned NumTests = 10;
 
   parameter int unsigned SingleM = 8;
@@ -87,6 +110,12 @@ module tb_one_mac_gemm;
   // Input memory A
   // Note: this is read only
   single_port_memory #(
+    .MemoryRows      ( MemoryRowsA    ),
+    .MemoryColumns   ( MemoryColumnsA ),
+    .DataRows        ( DataRowsA      ),
+    .DataColumns     ( DataColumnsA   ),
+    .WriteDataRows   ( WriteDataRowsA ),
+    .WriteDataColumns( WriteDataColumnsA ),
     .DataWidth     ( InDataWidth  ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
@@ -96,12 +125,19 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_a_addr  ),
     .mem_we_i      ( '0           ),
     .mem_wr_data_i ( '0           ),
-    .mem_rd_data_o ( sram_a_rdata )
+    .mem_rd_data_o ( sram_a_rdata ),
+    .MatrixCol     ( K_i          )
   );
 
   // Input memory B
   // Note: this is read only
   single_port_memory #(
+    .MemoryRows      ( MemoryRowsB    ),
+    .MemoryColumns   ( MemoryColumnsB ),
+    .DataRows        ( DataRowsB      ),
+    .DataColumns     ( DataColumnsB   ),
+    .WriteDataRows   ( WriteDataRowsB ),
+    .WriteDataColumns( WriteDataColumnsB ),
     .DataWidth     ( InDataWidth  ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
@@ -111,12 +147,19 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_b_addr  ),
     .mem_we_i      ( '0           ),
     .mem_wr_data_i ( '0           ),
-    .mem_rd_data_o ( sram_b_rdata )
+    .mem_rd_data_o ( sram_b_rdata ),
+    .MatrixCol     ( N_i          )
   );
 
   // Output memory C
   // Note: this is write only
   single_port_memory #(
+    .MemoryRows      ( MemoryRowsC    ),
+    .MemoryColumns   ( MemoryColumnsC ),
+    .DataRows        ( DataRowsC      ),
+    .DataColumns     ( DataColumnsC   ),
+    .WriteDataRows   ( WriteDataRowsC ),
+    .WriteDataColumns( WriteDataColumnsC ),
     .DataWidth     ( OutDataWidth ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
@@ -126,7 +169,8 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_c_addr  ),
     .mem_we_i      ( sram_c_we    ),
     .mem_wr_data_i ( sram_c_wdata ),
-    .mem_rd_data_o ( /* unused */ )
+    .mem_rd_data_o ( /* unused */ ),
+    .MatrixCol     ( N_i    )
   );
 
   //---------------------------
@@ -136,7 +180,10 @@ module tb_one_mac_gemm;
     .InDataWidth   ( InDataWidth   ),
     .OutDataWidth  ( OutDataWidth  ),
     .AddrWidth     ( AddrWidth     ),
-    .SizeAddrWidth ( SizeAddrWidth )
+    .SizeAddrWidth ( SizeAddrWidth ),
+    .M             ( M             ),
+    .N             ( N             ),
+    .K             ( K             )
   ) i_dut (
     .clk_i          ( clk_i        ),
     .rst_ni         ( rst_ni       ),
@@ -208,9 +255,9 @@ module tb_one_mac_gemm;
       $display("Test number: %0d", num_test);
 
       if (NumTests > 1) begin
-        M_i = $urandom_range(1, MaxNum);
-        K_i = $urandom_range(1, MaxNum);
-        N_i = $urandom_range(1, MaxNum);
+        M_i = $urandom_range(4, MaxNum);
+        K_i = $urandom_range(4, MaxNum);
+        N_i = $urandom_range(4, MaxNum);
       end else begin
         M_i = SingleM;
         K_i = SingleK;
