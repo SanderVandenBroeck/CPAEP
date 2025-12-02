@@ -2,7 +2,7 @@
 # ** Warning: (vlib-34) Library already exists at "work".
 # Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 21:34:16 on Dec 02,2025
+# Start time: 23:15:53 on Dec 02,2025
 # vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
 # -- Compiling module ceiling_counter
@@ -13,13 +13,11 @@
 # 
 # Top level modules:
 # 	tb_one_mac_gemm
-# End time: 21:34:16 on Dec 02,2025, Elapsed time: 0:00:00
+# End time: 23:15:53 on Dec 02,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 21:34:16 on Dec 02,2025
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Start time: 23:15:53 on Dec 02,2025
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # //  Questa Sim-64
 # //  Version 2022.4 linux_x86_64 Oct 18 2022
 # //
@@ -48,84 +46,26 @@
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 165
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'N_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(49).
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 165
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[0]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[1]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[2]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[0]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[1]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[2]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'a_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(37).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (4) for port 'b_i'. The port definition is at: rtl/gemm/general_mac_pe.sv(38).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/gem_mac_pe_n[3]/gem_mac_pe_m[3]/i_mac_pe File: rtl/gemm/gemm_accelerator_top.sv Line: 179
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_K_counter File: rtl/gemm/gemm_controller.sv Line: 115
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_N_counter File: rtl/gemm/gemm_controller.sv Line: 129
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_M_counter File: rtl/gemm/gemm_controller.sv Line: 143
 # Test number: 0
 # M: 32, K: 32, N: 32
 # GEMM operation completed in 512 cycles
-# test_depth = -64
+# test_depth = 64
 # Mi = 32, Ni = 32
 # test_depth = 64
-# ERROR: Mismatch at address 0: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 1: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 2: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 3: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 4: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 5: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 6: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 7: expected 00000000, got xxxxxxxx
+# ERROR: Mismatch at address 0: expected 00000000, got 00001ece
+# ERROR: Mismatch at address 1: expected 00000000, got 000028a9
+# ERROR: Mismatch at address 2: expected 00000000, got ffff229f
+# ERROR: Mismatch at address 3: expected 00000000, got 00003b17
+# ERROR: Mismatch at address 4: expected 00000000, got 0000561f
+# ERROR: Mismatch at address 5: expected 00000000, got 000029e8
+# ERROR: Mismatch at address 6: expected 00000000, got 00007e04
+# ERROR: Mismatch at address 7: expected 00000000, got 0000341c
 # ERROR: Mismatch at address 8: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 9: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 10: expected 00000000, got xxxxxxxx
@@ -134,14 +74,14 @@
 # ERROR: Mismatch at address 13: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 14: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 15: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 16: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 17: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 18: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 19: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 20: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 21: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 22: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 23: expected 00000000, got xxxxxxxx
+# ERROR: Mismatch at address 16: expected 00000000, got 000080fb
+# ERROR: Mismatch at address 17: expected 00000000, got 00005462
+# ERROR: Mismatch at address 18: expected 00000000, got 000067a3
+# ERROR: Mismatch at address 19: expected 00000000, got 00001324
+# ERROR: Mismatch at address 20: expected 00000000, got 000036c2
+# ERROR: Mismatch at address 21: expected 00000000, got ffff2856
+# ERROR: Mismatch at address 22: expected 00000000, got 000033fe
+# ERROR: Mismatch at address 23: expected 00000000, got ffffa0b9
 # ERROR: Mismatch at address 24: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 25: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 26: expected 00000000, got xxxxxxxx
@@ -150,14 +90,14 @@
 # ERROR: Mismatch at address 29: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 30: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 31: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 32: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 33: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 34: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 35: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 36: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 37: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 38: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 39: expected 00000000, got xxxxxxxx
+# ERROR: Mismatch at address 32: expected 00000000, got 0000239b
+# ERROR: Mismatch at address 33: expected 00000000, got ffffa47f
+# ERROR: Mismatch at address 34: expected 00000000, got ffffd140
+# ERROR: Mismatch at address 35: expected 00000000, got ffff74d7
+# ERROR: Mismatch at address 36: expected 00000000, got 0000000d
+# ERROR: Mismatch at address 37: expected 00000000, got ffff5da0
+# ERROR: Mismatch at address 38: expected 00000000, got ffff6d99
+# ERROR: Mismatch at address 39: expected 00000000, got 00004e5f
 # ERROR: Mismatch at address 40: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 41: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 42: expected 00000000, got xxxxxxxx
@@ -166,14 +106,14 @@
 # ERROR: Mismatch at address 45: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 46: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 47: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 48: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 49: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 50: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 51: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 52: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 53: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 54: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 55: expected 00000000, got xxxxxxxx
+# ERROR: Mismatch at address 48: expected 00000000, got ffffb5f5
+# ERROR: Mismatch at address 49: expected 00000000, got ffff95c8
+# ERROR: Mismatch at address 50: expected 00000000, got ffffd5a6
+# ERROR: Mismatch at address 51: expected 00000000, got 00018ebe
+# ERROR: Mismatch at address 52: expected 00000000, got 00005020
+# ERROR: Mismatch at address 53: expected 00000000, got ffffe908
+# ERROR: Mismatch at address 54: expected 00000000, got ffff9023
+# ERROR: Mismatch at address 55: expected 00000000, got 0000677c
 # ERROR: Mismatch at address 56: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 57: expected 00000000, got xxxxxxxx
 # ERROR: Mismatch at address 58: expected 00000000, got xxxxxxxx
@@ -184,7 +124,7 @@
 # ERROR: Mismatch at address 63: expected 00000000, got xxxxxxxx
 # Result matrix C verification passed!
 # All test tasks completed successfully!
-# ** Note: $finish    : tb/tb_one_mac_gemm.sv(326)
+# ** Note: $finish    : tb/tb_one_mac_gemm.sv(324)
 #    Time: 5306 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# End time: 21:34:16 on Dec 02,2025, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 36
+# End time: 23:15:53 on Dec 02,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 6

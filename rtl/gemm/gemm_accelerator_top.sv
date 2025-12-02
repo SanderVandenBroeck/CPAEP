@@ -115,15 +115,15 @@ module gemm_accelerator_top #(
   //---------------------------
 
   // Input addresses for matrices A and B
-  assign sram_a_addr_o = (M_count * K_size_i + K_count);
-  assign sram_b_addr_o = (K_count * N_size_i + N_count);
+  assign sram_a_addr_o = (M_count * K_size_i/K + K_count);
+  assign sram_b_addr_o = (K_count * N_size_i/N + N_count); // (N_count * K_size_i/K + K_count);
 
   // Output address for matrix C
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       sram_c_addr_o <= '0;
     end else if (1'b1) begin  // Always valid in this simple design
-      sram_c_addr_o <= (M_count * N_size_i + N_count);
+      sram_c_addr_o <= (M_count * N_size_i/N + N_count);
     end
   end
 
@@ -179,8 +179,8 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[m*K+:K] ),
-        .b_i          ( sram_b_rdata_i[n*K+:K] ),                  
+        .a_i          ( sram_a_rdata_i[m*K*8+:K*8] ),
+        .b_i          ( sram_b_rdata_i[n*K*8+:K*8] ),                  
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
         .init_save_i  ( sram_c_we_o || start_i ),

@@ -278,15 +278,13 @@ module tb_one_mac_gemm;
       // Initialize memories with random data
       for (integer m = 0; m < M_i/M; m++) begin
         for (integer k = 0; k < K_i/K; k++) begin
-          i_sram_a.memory[m*K_i+k] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** (InDataWidth*M*K));
-          // i_sram_a.memory[m*K_i/K+k] = $urandom() % (2 ** (InDataWidth*M*K));
+          i_sram_a.memory[m*K_i/K+k] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** (InDataWidth*M*K));
         end
       end
 
       for (integer k = 0; k < K_i/K; k++) begin
         for (integer n = 0; n < N_i/N; n++) begin
-          i_sram_b.memory[k*N_i+n] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** InDataWidth*K*N);
-          // i_sram_b.memory[k*N_i/N+n] = $urandom() % (2 ** (InDataWidth*K*N));
+          i_sram_b.memory[k*N_i/N+n] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** InDataWidth*K*N);
         end
       end
 

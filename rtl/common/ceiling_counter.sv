@@ -23,8 +23,7 @@
 
 module ceiling_counter #(
   parameter int Width      = 8,
-  parameter int HasCeiling = 1,
-  parameter int unsigned stepSize = 4
+  parameter int HasCeiling = 1
 ) (
   input  logic             clk_i,
   input  logic             rst_ni,       // active-low async reset
@@ -47,12 +46,12 @@ module ceiling_counter #(
       // Only update on tick
       if (HasCeiling) begin
         // Compare against (ceiling_i - 1)
-        if (count_o < (ceiling_i - stepSize))
-          count_o <= count_o + stepSize;
+        if (count_o < (ceiling_i - 1'b1))
+          count_o <= count_o + 1'b1;
         else count_o <= '0;
       end else begin
         // Free-running counter
-        count_o <= count_o + stepSize;
+        count_o <= count_o + 1'b1;
       end
     end
   end
@@ -60,7 +59,7 @@ module ceiling_counter #(
   always_comb begin
     if (HasCeiling) begin
       // last_value_o is true if count_o == (ceiling_i - 1) AND a tick occurs
-      last_value_o = (count_o == (ceiling_i - stepSize)) && tick_i;
+      last_value_o = (count_o == (ceiling_i - 1'b1)) && tick_i;
     end else begin
       // last_value_o is true if all bits of count_o are 1 AND a tick occurs
       last_value_o = (&count_o) && tick_i;

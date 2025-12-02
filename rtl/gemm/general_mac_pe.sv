@@ -67,7 +67,7 @@ module general_mac_pe #(
   always_comb begin
     mult_result = '0;
     for (int i = 0; i < NumInputs; i++) begin
-      mult_result += $signed(a_array[i]) + $signed(b_array[i]);
+      mult_result += $signed(a_array[i]) * $signed(b_array[i]);
     end
   end
 
