@@ -168,14 +168,10 @@ module gemm_accelerator_top #(
 
 
   genvar m, k, n, i;
-
+  generate
   for (n = 0; n < N; n++) begin : gem_mac_pe_n
-    logic [K*InDataWidth-1:0] temp;
-    for (i = 0; i < K; i++) begin : gen_weights
-      assign temp[i*InDataWidth+:InDataWidth] = sram_b_rdata_i[i*InDataWidth*N+:InDataWidth];
-    end
     for (m = 0; m < M; m++) begin : gem_mac_pe_m
-
+      logic [OutDataWidth-1:0] wdata;
       general_mac_pe #(
         .InDataWidth  ( InDataWidth            ),
         .NumInputs    ( K                      ),
@@ -183,15 +179,22 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[K*m*InDataWidth+:K*InDataWidth] ),
-        .b_i          ( temp                   ),
+        .a_i          ( sram_a_rdata_i[m*K+:K] ),
+        .b_i          ( sram_b_rdata_i[n*K+:K] ),                  
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
         .init_save_i  ( sram_c_we_o || start_i ),
         .acc_clr_i    ( !busy                  ),
-        .c_o          ( sram_c_wdata_o         )
+        .c_o          ( wdata         )
       );
     end
   end
+  for (m = 0; m < M; m++) begin : gem_c_wdata_m
+    for (n = 0; n < N; n++) begin : gem_c_wdata_n
+      assign sram_c_wdata_o[(m*N + n)*OutDataWidth +: OutDataWidth] = gem_mac_pe_n[n].gem_mac_pe_m[m].wdata;
+    end
+  end
+  endgenerate
+
 
 endmodule

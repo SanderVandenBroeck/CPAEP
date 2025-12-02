@@ -30,7 +30,10 @@
 //---------------------------
 
 module gemm_controller #(
-  parameter int unsigned AddrWidth = 16
+  parameter int unsigned AddrWidth = 16,
+  parameter int unsigned K = 4,
+  parameter int unsigned M = 4,
+  parameter int unsigned N = 4
 )(
   input  logic clk_i,
   input  logic rst_ni,
@@ -108,7 +111,8 @@ module gemm_controller #(
   // K Counter
   ceiling_counter #(
     .Width        (      AddrWidth ),
-    .HasCeiling   (              1 )
+    .HasCeiling   (              1 ),
+    .stepSize     (              K )
   ) i_K_counter (
     .clk_i        ( clk_i          ),
     .rst_ni       ( rst_ni         ),
@@ -122,7 +126,8 @@ module gemm_controller #(
   // N Counter
   ceiling_counter #(
     .Width        (      AddrWidth ),
-    .HasCeiling   (              1 )
+    .HasCeiling   (              1 ),
+    .stepSize     (              N )
   ) i_N_counter (
     .clk_i        ( clk_i          ),
     .rst_ni       ( rst_ni         ),
@@ -136,7 +141,8 @@ module gemm_controller #(
   // M Counter
   ceiling_counter #(
     .Width        (               AddrWidth ),
-    .HasCeiling   (                       1 )
+    .HasCeiling   (                       1 ),
+    .stepSize     (                       M )
   ) i_M_counter (
     .clk_i        ( clk_i                   ),
     .rst_ni       ( rst_ni                  ),

@@ -19,9 +19,8 @@ module tb_one_mac_gemm;
   //---------------------------
 
   // General Parameters
-  parameter int unsigned InDataWidth   = 8;
-  parameter int unsigned OutDataWidth  = 32;
-  parameter int unsigned DataDepth     = 4096;
+  parameter int unsigned InDataWidth  = 8;
+  parameter int unsigned DataDepth     = 32*32;
   parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
   parameter int unsigned SizeAddrWidth = 8;
 
@@ -29,24 +28,13 @@ module tb_one_mac_gemm;
   parameter int unsigned M = 4;
   parameter int unsigned N = 4;
   parameter int unsigned K = 4;
-  parameter int unsigned MemoryRowsA = 32;
-  parameter int unsigned MemoryColumnsA = 32;
-  parameter int unsigned DataRowsA = K;
-  parameter int unsigned DataColumnsA = M;
-  parameter int unsigned WriteDataRowsA = 0;
-  parameter int unsigned WriteDataColumnsA = 0;
-  parameter int unsigned MemoryRowsB = 32;
-  parameter int unsigned MemoryColumnsB = 32;
-  parameter int unsigned DataRowsB = K;
-  parameter int unsigned DataColumnsB = N;
-  parameter int unsigned WriteDataRowsB = 0;
-  parameter int unsigned WriteDataColumnsB = 0;
-  parameter int unsigned MemoryRowsC = 32;
-  parameter int unsigned MemoryColumnsC = 32;
-  parameter int unsigned DataRowsC = M;
-  parameter int unsigned DataColumnsC = N;
-  parameter int unsigned WriteDataRowsC = M;
-  parameter int unsigned WriteDataColumnsC = N;
+
+  // Input Data Width Parameters
+  parameter int unsigned InDataWidthA = 8 * M * K; // Matrix A
+  parameter int unsigned InDataWidthB = 8 * K * N; // Matrix B
+
+  // Output Data Width Parameters
+  parameter int unsigned OutDataWidth = 32 * M * N; // Matrix C
   
   // Test Parameters
   parameter int unsigned MaxNum   = 64;
@@ -59,7 +47,6 @@ module tb_one_mac_gemm;
   //---------------------------
   // Wires
   //---------------------------
-
   // Size control
   logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
 
@@ -68,12 +55,13 @@ module tb_one_mac_gemm;
   logic rst_ni;
   logic start;
   logic done;
+  logic [AddrWidth-1:0] test_depth;
 
   //---------------------------
   // Memory
   //---------------------------
   // Golden data dump
-  logic signed [OutDataWidth-1:0] G_memory [DataDepth];
+  logic signed [OutDataWidth-1:0] G_memory, reorderedOut [DataDepth];
 
   // Memory control
   logic [AddrWidth-1:0] sram_a_addr;
@@ -81,9 +69,9 @@ module tb_one_mac_gemm;
   logic [AddrWidth-1:0] sram_c_addr;
 
   // Memory access
-  logic signed [ InDataWidth-1:0] sram_a_rdata;
-  logic signed [ InDataWidth-1:0] sram_b_rdata;
-  logic signed [OutDataWidth-1:0] sram_c_wdata;
+  logic signed [ InDataWidthA-1:0] sram_a_rdata;
+  logic signed [ InDataWidthB-1:0] sram_b_rdata;
+  logic signed [ OutDataWidth-1:0] sram_c_wdata;
   logic                           sram_c_we;
 
   //---------------------------
@@ -110,13 +98,7 @@ module tb_one_mac_gemm;
   // Input memory A
   // Note: this is read only
   single_port_memory #(
-    .MemoryRows      ( MemoryRowsA    ),
-    .MemoryColumns   ( MemoryColumnsA ),
-    .DataRows        ( DataRowsA      ),
-    .DataColumns     ( DataColumnsA   ),
-    .WriteDataRows   ( WriteDataRowsA ),
-    .WriteDataColumns( WriteDataColumnsA ),
-    .DataWidth     ( InDataWidth  ),
+    .DataWidth     ( InDataWidthA ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
   ) i_sram_a (
@@ -125,20 +107,13 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_a_addr  ),
     .mem_we_i      ( '0           ),
     .mem_wr_data_i ( '0           ),
-    .mem_rd_data_o ( sram_a_rdata ),
-    .MatrixCol     ( K_i          )
+    .mem_rd_data_o ( sram_a_rdata )
   );
 
   // Input memory B
   // Note: this is read only
   single_port_memory #(
-    .MemoryRows      ( MemoryRowsB    ),
-    .MemoryColumns   ( MemoryColumnsB ),
-    .DataRows        ( DataRowsB      ),
-    .DataColumns     ( DataColumnsB   ),
-    .WriteDataRows   ( WriteDataRowsB ),
-    .WriteDataColumns( WriteDataColumnsB ),
-    .DataWidth     ( InDataWidth  ),
+    .DataWidth     ( InDataWidthB ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
   ) i_sram_b (
@@ -147,19 +122,12 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_b_addr  ),
     .mem_we_i      ( '0           ),
     .mem_wr_data_i ( '0           ),
-    .mem_rd_data_o ( sram_b_rdata ),
-    .MatrixCol     ( N_i          )
+    .mem_rd_data_o ( sram_b_rdata )
   );
 
   // Output memory C
   // Note: this is write only
   single_port_memory #(
-    .MemoryRows      ( MemoryRowsC    ),
-    .MemoryColumns   ( MemoryColumnsC ),
-    .DataRows        ( DataRowsC      ),
-    .DataColumns     ( DataColumnsC   ),
-    .WriteDataRows   ( WriteDataRowsC ),
-    .WriteDataColumns( WriteDataColumnsC ),
     .DataWidth     ( OutDataWidth ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
@@ -169,8 +137,7 @@ module tb_one_mac_gemm;
     .mem_addr_i    ( sram_c_addr  ),
     .mem_we_i      ( sram_c_we    ),
     .mem_wr_data_i ( sram_c_wdata ),
-    .mem_rd_data_o ( /* unused */ ),
-    .MatrixCol     ( N_i    )
+    .mem_rd_data_o ( /* unused */ )
   );
 
   //---------------------------
@@ -309,7 +276,17 @@ module tb_one_mac_gemm;
           i_sram_b.memory[k*N_i+n] = $urandom() % (2 ** InDataWidth);
         end
       end
-
+      
+      // Reorder output memory layout
+      int unsigned tempAddr, floorN, floorM;
+      for (int unsigned m = 0; m < Mi; m++) begin
+        for (int unsigned n = 0; n < Ni; n++) begin
+          floorN = n/N;
+          floorM = m/M;
+          tempAddr = floorN*M*K + floorM*M*Ki + n%N + (m%M)*N; // floor(n,N)*M*K + floor(m,M)*M*Ni + mod(n,N) + mod(m,M)*N
+          reorderedOut[tempAddr] = i_sram_c.memory[Ni*m + n];
+        end
+      end
       // Generate golden result
       gemm_golden(M_i, K_i, N_i, i_sram_a.memory, i_sram_b.memory, G_memory);
 
@@ -320,7 +297,7 @@ module tb_one_mac_gemm;
       start_and_wait_gemm();
 
       // Verify the result
-      verify_result_c(G_memory, i_sram_c.memory, DataDepth,
+      verify_result_c(G_memory, reorderedOut, test_depth,
                       0 // Set this to 1 to make mismatches fatal
       );
 

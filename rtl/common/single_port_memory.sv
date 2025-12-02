@@ -25,19 +25,12 @@
 // DataWidth parameters to suit your design requirements.
 //-----------------------------
 module single_port_memory #(
-    parameter int unsigned MemoryRows = 32,
-    parameter int unsigned MemoryColumns = 32,
-    parameter int unsigned DataRows = 4,
-    parameter int unsigned DataColumns = 4,
-    parameter int unsigned WriteDataRows = 4,
-    parameter int unsigned WriteDataColumns = 4,
-    parameter int unsigned DataWidth = 8*DataColumns*DataRows,
-    parameter int unsigned DataDepth = MemoryRows*MemoryColumns,
+    parameter int unsigned DataWidth = 8*4*4,
+    parameter int unsigned DataDepth = 1024,
     parameter int unsigned AddrWidth = (DataDepth <= 1) ? 1 : $clog2(DataDepth)
 ) (
     input  logic                        clk_i,
     input  logic                        rst_ni,
-    input  logic        [6:0]           MatrixCol,
     input  logic        [AddrWidth-1:0] mem_addr_i,
     input  logic                        mem_we_i,
     input  logic signed [DataWidth-1:0] mem_wr_data_i,
@@ -48,9 +41,8 @@ module single_port_memory #(
   logic signed [DataWidth-1:0] memory[DataDepth];
 
   // Memory read access
-  genvar i, j; // i is loop variable for rows and j for the columns
-  for (i = 0; i < DataRows-1; i++) begin
-    assign mem_rd_data_o[i*8*DataColumns+:8*DataColumns] = memory[mem_addr_i+i*MatrixCol+:DataColumns];
+  always_comb begin
+    mem_rd_data_o = memory[mem_addr_i];
   end
 
   // Memory write access
@@ -58,16 +50,6 @@ module single_port_memory #(
     // Write when write enable is asserted
     if (mem_we_i) begin
       memory[mem_addr_i] <= mem_wr_data_i;
-    end
-  end
-
-  // Memory write access
-  genvar i, j; // i is loop variable for rows and j for the columns
-  always_ff @(posedge clk_i) begin
-    if( mem_we_i ) begin
-      for (i = 0; i < WriteDataRows-1; i++) begin
-        assign memory[mem_addr_i+i*MatrixCol+:WriteDataColumns] <= mem_wr_data_i[MatrixCol*8*i+:MatrixCol*8];
-      end
     end
   end
 endmodule

@@ -27,7 +27,7 @@
 
 module general_mac_pe #(
   parameter int unsigned InDataWidth  = 8,
-  parameter int unsigned NumInputs    = 4,
+  parameter int unsigned NumInputs    = 4, // K dimension
   parameter int unsigned OutDataWidth = 32
 )(
   // Clock and reset
@@ -48,13 +48,14 @@ module general_mac_pe #(
 
   logic signed [NumInputs-1:0][InDataWidth-1:0] a_array;
   logic signed [NumInputs-1:0][InDataWidth-1:0] b_array;
-  always_comb begin
-    genvar i;
-    for (int i = 0; i < NumInputs; i++) begin
-      a_array[i] = a_i[i*InDataWidth +: InDataWidth];
-      b_array[i] = b_i[i*InDataWidth +: InDataWidth];
+
+  genvar j;
+  generate
+    for (j = 0; j < NumInputs; j++) begin
+      assign a_array[j] = a_i[j*InDataWidth +: InDataWidth];
+      assign b_array[j] = b_i[j*InDataWidth +: InDataWidth];
     end
-  end
+  endgenerate
 
   // Wires and logic
   logic acc_valid;

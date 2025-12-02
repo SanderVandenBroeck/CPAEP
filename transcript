@@ -1,93 +1,90 @@
-# Reading pref.tcl
-# //  Questa Sim-64
-# //  Version 2022.4 linux_x86_64 Oct 18 2022
-# //
-# //  Copyright 1991-2022 Mentor Graphics Corporation
-# //  All Rights Reserved.
-# //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
-# //
 # do questasim.do
 # ** Warning: (vlib-34) Library already exists at "work".
 # Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 13:55:23 on Dec 01,2025
-# vlog -reportprogress 300 "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
+# Start time: 17:05:47 on Dec 02,2025
+# vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
-# ** Warning: rtl/gemm/general_mac_pe.sv(37): (vlog-13314) Defaulting port 'a_i' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
-# ** Warning: rtl/gemm/general_mac_pe.sv(38): (vlog-13314) Defaulting port 'b_i' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
 # -- Compiling module ceiling_counter
 # -- Compiling module gemm_controller
 # -- Compiling module gemm_accelerator_top
 # -- Compiling module single_port_memory
 # -- Compiling module tb_one_mac_gemm
-# 
-# Top level modules:
-# 	tb_one_mac_gemm
-# End time: 13:55:23 on Dec 01,2025, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 2
-# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 13:55:23 on Dec 01,2025
-# ** Note: (vsim-8009) Loading existing optimized design _opt
-# Loading sv_std.std
-# Loading work.tb_one_mac_gemm(fast)
-# Loading work.single_port_memory(fast)
-# Loading work.single_port_memory(fast__1)
-# Loading work.gemm_accelerator_top(fast)
-# Loading work.gemm_controller(fast)
-# Loading work.ceiling_counter(fast)
-# Loading work.general_mac_pe(fast)
-# Test number: 0
-# M: 10, K: 27, N: 31
-# GEMM operation completed in 8370 cycles
-# Result matrix C verification passed!
-# Test number: 1
-# M: 29, K: 22, N: 14
-# GEMM operation completed in 8932 cycles
-# Result matrix C verification passed!
-# Test number: 2
-# M: 23, K: 29, N: 12
-# GEMM operation completed in 8004 cycles
-# Result matrix C verification passed!
-# Test number: 3
-# M: 25, K: 24, N: 1
-# GEMM operation completed in 600 cycles
-# Result matrix C verification passed!
-# Test number: 4
-# M: 4, K: 6, N: 22
-# GEMM operation completed in 528 cycles
-# Result matrix C verification passed!
-# Test number: 5
-# M: 21, K: 20, N: 8
-# GEMM operation completed in 3360 cycles
-# Result matrix C verification passed!
-# Test number: 6
-# M: 13, K: 15, N: 23
-# GEMM operation completed in 4485 cycles
-# Result matrix C verification passed!
-# Test number: 7
-# M: 16, K: 31, N: 10
-# GEMM operation completed in 4960 cycles
-# Result matrix C verification passed!
-# Test number: 8
-# M: 9, K: 13, N: 10
-# GEMM operation completed in 1170 cycles
-# Result matrix C verification passed!
-# Test number: 9
-# M: 11, K: 16, N: 3
-# GEMM operation completed in 528 cycles
-# Result matrix C verification passed!
-# All test tasks completed successfully!
-# ** Note: $finish    : tb/tb_one_mac_gemm.sv(286)
-#    Time: 410816 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# 1
-# Break in Module tb_one_mac_gemm at tb/tb_one_mac_gemm.sv line 286
-coverage report -html -annotate -details -assert -directive -cvg -code bcefst -threshL 50 -threshH 90
-# End time: 14:46:30 on Dec 01,2025, Elapsed time: 0:51:07
-# Errors: 0, Warnings: 0
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(30): near "generate": syntax error, unexpected generate.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(31): (vlog-2730) Undefined variable: 'm'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(31): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(32): (vlog-2730) Undefined variable: 'kA'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(32): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: tempAddrA
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: orderedA
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: Ki
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: m
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: kA
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: A_i
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(36): Slice of unpacked array not allowed in procedural continuous assignment: orderedA.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(37): near "end": syntax error, unexpected end.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(42): (vlog-2730) Undefined variable: 'n'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(42): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(43): (vlog-2730) Undefined variable: 'kB'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(43): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: tempAddrB
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: orderedBT
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: Ki
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: n
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: kB
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: B_i
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(47): Slice of unpacked array not allowed in procedural continuous assignment: orderedBT.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(48): near "end": syntax error, unexpected end.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(51): (vlog-2730) Undefined variable: 'k'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(51): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(52): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(61): Illegal declaration after the statement near line '58'.  Declarations must precede statements.  Look for stray semicolons.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(61): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(62): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
+# ** at includes/test_func.svh(68): near "end": syntax error, unexpected end.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(186): near "end": syntax error, unexpected end.
+# ** Error: tb/tb_one_mac_gemm.sv(282): Illegal declaration after the statement near line '274'.  Declarations must precede statements.  Look for stray semicolons.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(282): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(283): near ")": syntax error, unexpected ')', expecting ';'.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(289): near "end": syntax error, unexpected end.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(307): near "end": syntax error, unexpected end.
+# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(311): near "end": syntax error, unexpected end.
+# End time: 17:05:47 on Dec 02,2025, Elapsed time: 0:00:00
+# Errors: 39, Warnings: 0
+# ** Error: /esat/micas-data/software/Mentor/questasim_2022.4/linux_x86_64/vlog failed.
+# Error in macro ./questasim.do line 2
+# /esat/micas-data/software/Mentor/questasim_2022.4/linux_x86_64/vlog failed.
+#     while executing
+# "vlog +cover +acc -sv -f flists/tb_one_mac_gemm.flist +incdir+."
