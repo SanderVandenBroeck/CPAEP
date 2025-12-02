@@ -44,11 +44,20 @@ module tb_one_mac_gemm;
   parameter int unsigned SingleK = 8;
   parameter int unsigned SingleN = 8;
 
+  int unsigned tempAddr, floorN, floorM;
+  
+
   //---------------------------
-  // Wires
+  // Wiresq
   //---------------------------
   // Size control
-  logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
+  // logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
+  int signed M_i, K_i, N_i;
+
+  // Removed illegal variable-sized arrays and parameters
+  // logic signed [InDataWidth-1:0] orderedA [0:M_i*K_i-1];
+  // logic signed [InDataWidth-1:0] orderedB, orderedBT [0:K_i*N_i-1];
+  // parameter int signed tempAddrA, floorKA, floorMA, tempAddrB, floorKB, floorNB;
 
   // Clock, reset, and other signals
   logic clk_i;
@@ -61,7 +70,8 @@ module tb_one_mac_gemm;
   // Memory
   //---------------------------
   // Golden data dump
-  logic signed [OutDataWidth-1:0] G_memory, reorderedOut [DataDepth];
+  logic signed [OutDataWidth-1:0] G_memory [DataDepth]; 
+  logic signed [OutDataWidth-1:0] reorderedOut [DataDepth];
 
   // Memory control
   logic [AddrWidth-1:0] sram_a_addr;
@@ -276,17 +286,7 @@ module tb_one_mac_gemm;
           i_sram_b.memory[k*N_i+n] = $urandom() % (2 ** InDataWidth);
         end
       end
-      
-      // Reorder output memory layout
-      int unsigned tempAddr, floorN, floorM;
-      for (int unsigned m = 0; m < Mi; m++) begin
-        for (int unsigned n = 0; n < Ni; n++) begin
-          floorN = n/N;
-          floorM = m/M;
-          tempAddr = floorN*M*K + floorM*M*Ki + n%N + (m%M)*N; // floor(n,N)*M*K + floor(m,M)*M*Ni + mod(n,N) + mod(m,M)*N
-          reorderedOut[tempAddr] = i_sram_c.memory[Ni*m + n];
-        end
-      end
+
       // Generate golden result
       gemm_golden(M_i, K_i, N_i, i_sram_a.memory, i_sram_b.memory, G_memory);
 
@@ -295,6 +295,16 @@ module tb_one_mac_gemm;
 
       // Execute the GeMM
       start_and_wait_gemm();
+
+      // Reorder output memory layout
+      for (int unsigned m = 0; m < M_i; m++) begin
+        for (int unsigned n = 0; n < N_i; n++) begin
+          floorN = n/N;
+          floorM = m/M;
+          tempAddr = floorN*M*K + floorM*M*K_i + n%N + (m%M)*N; // floor(n,N)*M*K + floor(m,M)*M*Ni + mod(n,N) + mod(m,M)*N
+          reorderedOut[tempAddr] = i_sram_c.memory[N_i*m + n];
+        end
+      end
 
       // Verify the result
       verify_result_c(G_memory, reorderedOut, test_depth,

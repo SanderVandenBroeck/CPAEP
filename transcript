@@ -2,7 +2,7 @@
 # ** Warning: (vlib-34) Library already exists at "work".
 # Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 17:05:47 on Dec 02,2025
+# Start time: 17:55:19 on Dec 02,2025
 # vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
 # -- Compiling module ceiling_counter
@@ -10,79 +10,12 @@
 # -- Compiling module gemm_accelerator_top
 # -- Compiling module single_port_memory
 # -- Compiling module tb_one_mac_gemm
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(30): near "generate": syntax error, unexpected generate.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(31): (vlog-2730) Undefined variable: 'm'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(31): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(32): (vlog-2730) Undefined variable: 'kA'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(32): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: tempAddrA
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: orderedA
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: Ki
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: m
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: kA
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Automatic variable not allowed in procedural continuous assignment statement: A_i
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(36): Slice of unpacked array not allowed in procedural continuous assignment: orderedA.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(37): near "end": syntax error, unexpected end.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(42): (vlog-2730) Undefined variable: 'n'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(42): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(43): (vlog-2730) Undefined variable: 'kB'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(43): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: tempAddrB
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: orderedBT
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: Ki
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: n
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: kB
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Automatic variable not allowed in procedural continuous assignment statement: B_i
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(47): Slice of unpacked array not allowed in procedural continuous assignment: orderedBT.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(48): near "end": syntax error, unexpected end.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(51): (vlog-2730) Undefined variable: 'k'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(51): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(52): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(61): Illegal declaration after the statement near line '58'.  Declarations must precede statements.  Look for stray semicolons.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(61): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(62): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: (vlog-13069) ** while parsing file included at tb/tb_one_mac_gemm.sv(176)
-# ** at includes/test_func.svh(68): near "end": syntax error, unexpected end.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(186): near "end": syntax error, unexpected end.
-# ** Error: tb/tb_one_mac_gemm.sv(282): Illegal declaration after the statement near line '274'.  Declarations must precede statements.  Look for stray semicolons.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(282): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(283): near ")": syntax error, unexpected ')', expecting ';'.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(289): near "end": syntax error, unexpected end.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(307): near "end": syntax error, unexpected end.
-# ** Error: (vlog-13069) tb/tb_one_mac_gemm.sv(311): near "end": syntax error, unexpected end.
-# End time: 17:05:47 on Dec 02,2025, Elapsed time: 0:00:00
-# Errors: 39, Warnings: 0
+# ** Error: tb/tb_one_mac_gemm.sv(57): Range must be bounded by constant expressions.
+# ** Error: tb/tb_one_mac_gemm.sv(58): Range must be bounded by constant expressions.
+# ** Error: includes/test_func.svh(30): Range must be bounded by constant expressions.
+# ** Error: includes/test_func.svh(31): Range must be bounded by constant expressions.
+# End time: 17:55:19 on Dec 02,2025, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
 # ** Error: /esat/micas-data/software/Mentor/questasim_2022.4/linux_x86_64/vlog failed.
 # Error in macro ./questasim.do line 2
 # /esat/micas-data/software/Mentor/questasim_2022.4/linux_x86_64/vlog failed.
