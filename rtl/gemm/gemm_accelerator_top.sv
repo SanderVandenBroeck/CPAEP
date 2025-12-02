@@ -36,7 +36,10 @@ module gemm_accelerator_top #(
   parameter int unsigned InDataWidth = 8,
   parameter int unsigned OutDataWidth = 32,
   parameter int unsigned AddrWidth = 16,
-  parameter int unsigned SizeAddrWidth = 8
+  parameter int unsigned SizeAddrWidth = 8,
+  parameter int unsigned M = 4,
+  parameter int unsigned N = 4,
+  parameter int unsigned K = 4
 ) (
   input  logic                            clk_i,
   input  logic                            rst_ni,
@@ -47,9 +50,9 @@ module gemm_accelerator_top #(
   output logic        [    AddrWidth-1:0] sram_a_addr_o,
   output logic        [    AddrWidth-1:0] sram_b_addr_o,
   output logic        [    AddrWidth-1:0] sram_c_addr_o,
-  input  logic signed [  InDataWidth-1:0] sram_a_rdata_i,
-  input  logic signed [  InDataWidth-1:0] sram_b_rdata_i,
-  output logic signed [ OutDataWidth-1:0] sram_c_wdata_o,
+  input  logic signed [  InDataWidth-1:0] sram_a_rdata_i[0:M*K-1],
+  input  logic signed [  InDataWidth-1:0] sram_b_rdata_i[0:N*K-1],
+  output logic signed [ OutDataWidth-1:0] sram_c_wdata_o[0:M*N-1],
   output logic                            sram_c_we_o,
   output logic                            done_o
 );
@@ -60,7 +63,6 @@ module gemm_accelerator_top #(
   logic [SizeAddrWidth-1:0] M_count;
   logic [SizeAddrWidth-1:0] K_count;
   logic [SizeAddrWidth-1:0] N_count;
-
   logic busy;
   logic valid_data;
   assign valid_data = start_i || busy;  // Always valid in this simple design
@@ -151,34 +153,45 @@ module gemm_accelerator_top #(
   //     end
   //   end
   // ----------- END CODE EXAMPLE -----------
-  // 
+  // mem_rd_data_o
   // There are many guides on the internet (or even ChatGPT) about generate-for loops.
   // We will give it as an exercise to you to modify this part to support multiple MAC PEs.
   // 
   // When dealing with multiple PEs, be careful with the connection alignment
   // across different PEs as it can be tricky to debug later on.
-  // Plan this very carefully, especially when delaing with the correcet data ports
+  // Plan this very carefully, especially when delaying with the correct data ports
   // data widths, slicing, valid signals, and so much more.
   //
   // Additionally, this MAC PE is already output stationary.
   // You have the freedom to change the dataflow as you see fit.
   //---------------------------
 
-  // The MAC PE instantiation and data path logics
-  general_mac_pe #(
-    .InDataWidth  ( InDataWidth            ),
-    .NumInputs    ( 1                      ),
-    .OutDataWidth ( OutDataWidth           )
-  ) i_mac_pe (
-    .clk_i        ( clk_i                  ),
-    .rst_ni       ( rst_ni                 ),
-    .a_i          ( sram_a_rdata_i         ),
-    .b_i          ( sram_b_rdata_i         ),
-    .a_valid_i    ( valid_data             ),
-    .b_valid_i    ( valid_data             ),
-    .init_save_i  ( sram_c_we_o || start_i ),
-    .acc_clr_i    ( !busy                  ),
-    .c_o          ( sram_c_wdata_o         )
-  );
+
+  genvar m, k, n, i;
+
+  for (n = 0; n < N; n++) begin : gem_mac_pe_n
+    logic [InDataWidth-1:0] temp[K];
+    for (i = 0; i < K; i++) begin : gen_weights
+      assign temp[i] = sram_b_rdata_i[i*N];
+    end
+    for (m = 0; m < M; m++) begin : gem_mac_pe_m
+
+      general_mac_pe #(
+        .InDataWidth  ( InDataWidth            ),
+        .NumInputs    ( K                      ),
+        .OutDataWidth ( OutDataWidth           )
+      ) i_mac_pe (
+        .clk_i        ( clk_i                  ),
+        .rst_ni       ( rst_ni                 ),
+        .a_i          ( sram_a_rdata_i[K*m+:K] ),
+        .b_i          ( temp                   ),
+        .a_valid_i    ( valid_data             ),
+        .b_valid_i    ( valid_data             ),
+        .init_save_i  ( sram_c_we_o || start_i ),
+        .acc_clr_i    ( !busy                  ),
+        .c_o          ( sram_c_wdata_o         )
+      );
+    end
+  end
 
 endmodule

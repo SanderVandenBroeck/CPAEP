@@ -27,7 +27,7 @@
 
 module general_mac_pe #(
   parameter int unsigned InDataWidth  = 8,
-  parameter int unsigned NumInputs    = 1,
+  parameter int unsigned NumInputs    = 4,
   parameter int unsigned OutDataWidth = 32
 )(
   // Clock and reset

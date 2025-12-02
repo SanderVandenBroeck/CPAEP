@@ -93,7 +93,7 @@ module gemm_controller #(
   //
   // This is the dataflow that the counters help to manage.
   // This will change when we start to have more spatial parallelism.
-  // For example, when we isert parfor loops, then the effective counters
+  // For example, when we insert parfor loops, then the effective counters
   // get divided by some parallelism factor S. Refer to lecture 3 again
   // for more details on this.
   //
