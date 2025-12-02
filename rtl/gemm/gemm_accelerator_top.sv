@@ -104,7 +104,7 @@ module gemm_accelerator_top #(
   // This part is the address generation logic for the input and output SRAMs.
   // In our example, we made the assumption that both matrices A and B
   // are stored in row-major order.
-  //
+//
   // Please adjust this part to align with your designed memory layout
   // The counters are used for the matrix A and matrix B address generation;
   // for matrix C, the corresponding address is calculated at the previous cycle,
@@ -179,8 +179,8 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[m*K*InDataWidth +: K*InDataWidth] ),
-        .b_i          ( sram_b_rdata_i[n*K*InDataWidth +: K*InDataWidth] ),                  
+        .a_i          ( sram_a_rdata_i[m*K+:K] ),
+        .b_i          ( sram_b_rdata_i[n*K+:K] ),                  
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
         .init_save_i  ( sram_c_we_o || start_i ),

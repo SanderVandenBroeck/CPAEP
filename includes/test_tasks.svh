@@ -26,7 +26,7 @@ endtask
 task automatic verify_result_c(
   input logic signed [OutDataWidth-1:0] golden_data [DataDepth],
   input logic signed [OutDataWidth-1:0] actual_data [DataDepth],
-  input logic        [     AddrWidth:0] num_data,
+  input logic        [   AddrWidth:0] num_data,
   input logic                           fatal_on_mismatch
 );
 begin

@@ -20,7 +20,7 @@ module tb_one_mac_gemm;
 
   // General Parameters
   parameter int unsigned InDataWidth  = 8;
-  parameter int unsigned DataDepth     = 32*32;
+  parameter int unsigned DataDepth     = 64;
   parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
   parameter int unsigned SizeAddrWidth = 8;
 
@@ -64,7 +64,7 @@ module tb_one_mac_gemm;
   logic rst_ni;
   logic start;
   logic done;
-  logic signed [AddrWidth:0] test_depth;
+  logic unsigned [AddrWidth:0] test_depth;
 
   //---------------------------
   // Memory
@@ -83,6 +83,7 @@ module tb_one_mac_gemm;
   logic signed [ InDataWidthB-1:0] sram_b_rdata;
   logic signed [ OutDataWidth*M*N-1:0] sram_c_wdata;
   logic                           sram_c_we;
+  
 
   //---------------------------
   // Declaration of input and output memories
@@ -275,15 +276,17 @@ module tb_one_mac_gemm;
       //---------------------------
 
       // Initialize memories with random data
-      for (integer m = 0; m < M_i; m++) begin
-        for (integer k = 0; k < K_i; k++) begin
-          i_sram_a.memory[m*K_i+k] = $urandom() % (2 ** InDataWidth);
+      for (integer m = 0; m < M_i/M; m++) begin
+        for (integer k = 0; k < K_i/K; k++) begin
+          i_sram_a.memory[m*K_i+k] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** (InDataWidth*M*K));
+          // i_sram_a.memory[m*K_i/K+k] = $urandom() % (2 ** (InDataWidth*M*K));
         end
       end
 
-      for (integer k = 0; k < K_i; k++) begin
-        for (integer n = 0; n < N_i; n++) begin
-          i_sram_b.memory[k*N_i+n] = $urandom() % (2 ** InDataWidth);
+      for (integer k = 0; k < K_i/K; k++) begin
+        for (integer n = 0; n < N_i/N; n++) begin
+          i_sram_b.memory[k*N_i+n] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** InDataWidth*K*N);
+          // i_sram_b.memory[k*N_i/N+n] = $urandom() % (2 ** (InDataWidth*K*N));
         end
       end
 
@@ -307,7 +310,7 @@ module tb_one_mac_gemm;
       end
 
       // Verify the result
-      test_depth = M_i * N_i;
+      test_depth = (M_i/M) * (N_i/N);
       $display("test_depth = %0d", test_depth);
       $display("Mi = %0d, Ni = %0d", M_i, N_i);
       verify_result_c(G_memory, reorderedOut, test_depth,

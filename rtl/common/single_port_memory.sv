@@ -26,7 +26,7 @@
 //-----------------------------
 module single_port_memory #(
     parameter int unsigned DataWidth = 8*4*4,
-    parameter int unsigned DataDepth = 1024,
+    parameter int unsigned DataDepth = 64,
     parameter int unsigned AddrWidth = (DataDepth <= 1) ? 1 : $clog2(DataDepth)
 ) (
     input  logic                        clk_i,
