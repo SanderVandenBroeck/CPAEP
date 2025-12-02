@@ -34,12 +34,12 @@
 
 module gemm_accelerator_top #(
   parameter int unsigned InDataWidth = 8,
-  parameter int unsigned OutDataWidth = 32,
   parameter int unsigned AddrWidth = 16,
   parameter int unsigned SizeAddrWidth = 8,
   parameter int unsigned M = 4,
   parameter int unsigned N = 4,
-  parameter int unsigned K = 4
+  parameter int unsigned K = 4,
+  parameter int unsigned OutDataWidth = 32
 ) (
   input  logic                            clk_i,
   input  logic                            rst_ni,
@@ -179,8 +179,8 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[m*K+:K] ),
-        .b_i          ( sram_b_rdata_i[n*K+:K] ),                  
+        .a_i          ( sram_a_rdata_i[m*K*InDataWidth +: K*InDataWidth] ),
+        .b_i          ( sram_b_rdata_i[n*K*InDataWidth +: K*InDataWidth] ),                  
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
         .init_save_i  ( sram_c_we_o || start_i ),

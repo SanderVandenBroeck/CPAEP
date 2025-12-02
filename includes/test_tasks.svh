@@ -26,10 +26,11 @@ endtask
 task automatic verify_result_c(
   input logic signed [OutDataWidth-1:0] golden_data [DataDepth],
   input logic signed [OutDataWidth-1:0] actual_data [DataDepth],
-  input logic        [   AddrWidth-1:0] num_data,
+  input logic        [     AddrWidth:0] num_data,
   input logic                           fatal_on_mismatch
 );
 begin
+  $display("test_depth = %0d", num_data);
     // Compare with SRAM C contents
   for (int unsigned addr = 0; addr < num_data; addr++) begin
   if (golden_data[addr] !== actual_data[addr]) begin

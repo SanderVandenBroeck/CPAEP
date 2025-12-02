@@ -34,15 +34,15 @@ module tb_one_mac_gemm;
   parameter int unsigned InDataWidthB = 8 * K * N; // Matrix B
 
   // Output Data Width Parameters
-  parameter int unsigned OutDataWidth = 32 * M * N; // Matrix C
+  parameter int unsigned OutDataWidth = 32; // Matrix C
   
   // Test Parameters
   parameter int unsigned MaxNum   = 64;
-  parameter int unsigned NumTests = 10;
+  parameter int unsigned NumTests = 1; //10;
 
-  parameter int unsigned SingleM = 8;
-  parameter int unsigned SingleK = 8;
-  parameter int unsigned SingleN = 8;
+  parameter int unsigned SingleM = 32;
+  parameter int unsigned SingleK = 32;
+  parameter int unsigned SingleN = 32;
 
   int unsigned tempAddr, floorN, floorM;
   
@@ -64,7 +64,7 @@ module tb_one_mac_gemm;
   logic rst_ni;
   logic start;
   logic done;
-  logic [AddrWidth-1:0] test_depth;
+  logic signed [AddrWidth:0] test_depth;
 
   //---------------------------
   // Memory
@@ -81,7 +81,7 @@ module tb_one_mac_gemm;
   // Memory access
   logic signed [ InDataWidthA-1:0] sram_a_rdata;
   logic signed [ InDataWidthB-1:0] sram_b_rdata;
-  logic signed [ OutDataWidth-1:0] sram_c_wdata;
+  logic signed [ OutDataWidth*M*N-1:0] sram_c_wdata;
   logic                           sram_c_we;
 
   //---------------------------
@@ -138,7 +138,7 @@ module tb_one_mac_gemm;
   // Output memory C
   // Note: this is write only
   single_port_memory #(
-    .DataWidth     ( OutDataWidth ),
+    .DataWidth     ( OutDataWidth*M*N ),
     .DataDepth     ( DataDepth    ),
     .AddrWidth     ( AddrWidth    )
   ) i_sram_c (
@@ -307,6 +307,9 @@ module tb_one_mac_gemm;
       end
 
       // Verify the result
+      test_depth = M_i * N_i;
+      $display("test_depth = %0d", test_depth);
+      $display("Mi = %0d, Ni = %0d", M_i, N_i);
       verify_result_c(G_memory, reorderedOut, test_depth,
                       0 // Set this to 1 to make mismatches fatal
       );
