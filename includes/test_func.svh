@@ -33,7 +33,7 @@ function automatic void gemm_golden(
   // Place concatenated words of A_i into array tempA with only 8 bit words
   for (int unsigned t = 0; t < (Ki/K) * (Mi/M); t++) begin
     for (int unsigned u = 0; u < M*K; u++) begin
-      tempA[t*K*M + u] = A_i[t][u*InDataWidth+:InDataWidth];
+      tempA[t*K*M + K*M - 1 - u] = A_i[t][u*InDataWidth+:InDataWidth];
     end
   end
 
@@ -56,7 +56,7 @@ function automatic void gemm_golden(
   // Place concatenated words of B_i into array tempB with only 8 bit words
   for (int unsigned t = 0; t < (Ki/K) * (Ni/N); t++) begin
     for (int unsigned u = 0; u < N*K; u++) begin
-      tempB[t*K*N + u] = B_i[t][u*InDataWidth+:InDataWidth];
+      tempB[t*K*N + K*N - 1 - u] = B_i[t][u*InDataWidth+:InDataWidth];
     end
   end
 
@@ -77,9 +77,9 @@ function automatic void gemm_golden(
   end
 
   // Transpose B
-  for (int unsigned k = 0; k < Ki; k++) begin
-    for (int unsigned n = 0; n < Ni; n++) begin
-      orderedB[n*Ki+k] = orderedBT[k*Ni+n];
+  for (int unsigned i = 0; i < Ni; i++) begin // loops over rows
+    for (int unsigned j = 0; j < Ki; j++) begin // loops over columns
+      orderedB[j*Ni+i] = orderedBT[i*Ki+j];
     end
   end
   

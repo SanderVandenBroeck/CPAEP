@@ -57,7 +57,7 @@ module gemm_controller #(
   //-----------------------
   logic move_K_counter;
   logic move_N_counter;
-  logic move_M_counter;
+  // logic move_M_counter;
   logic move_counter;
 
   assign move_K_counter = move_counter;
@@ -104,7 +104,7 @@ module gemm_controller #(
   // the last_value_o output is used to signal when the counter
   // has reached its ceiling value. This is crucial for the controller
   // to determine when to transition states and manage the overall flow.
-  //-----------------------
+  //----------------gemm_controller-------
 
   // Counters for M, K, N
 
@@ -194,6 +194,11 @@ module gemm_controller #(
     case (current_state)
       ControllerIdle: begin
         if (start_i) begin
+          if( last_counter_last_value) begin
+            next_state = ControllerFinish;
+          end else begin
+            next_state = ControllerBusy;
+          end
           move_counter = input_valid_i;
           next_state   = ControllerBusy;
         end
@@ -204,7 +209,8 @@ module gemm_controller #(
         // Check if we are done
         if (last_counter_last_value) begin
           next_state = ControllerFinish;
-        end else if (input_valid_i
+        end  
+        if (input_valid_i
                      && K_count_o == '0 
                      && (M_count_o != '0 || N_count_o != '0)) begin
           // Check when result_valid_o should be asserted

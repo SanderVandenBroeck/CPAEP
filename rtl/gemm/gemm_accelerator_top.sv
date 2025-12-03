@@ -65,7 +65,8 @@ module gemm_accelerator_top #(
   logic [SizeAddrWidth-1:0] N_count;
   logic busy;
   logic valid_data;
-  assign valid_data = start_i || busy;  // Always valid in this simple design
+  logic we,move_M_counter;
+  assign valid_data = (K_count == K_size_i/K - 1) || start_i || busy;  // Always valid in this simple design
 
   //---------------------------
   // DESIGN NOTE:
@@ -98,7 +99,6 @@ module gemm_accelerator_top #(
     .K_count_o      ( K_count     ),
     .N_count_o      ( N_count     )
   );
-
   //---------------------------
   // DESIGN NOTE:
   // This part is the address generation logic for the input and output SRAMs.
@@ -116,7 +116,7 @@ module gemm_accelerator_top #(
 
   // Input addresses for matrices A and B
   assign sram_a_addr_o = (M_count * K_size_i/K + K_count);
-  assign sram_b_addr_o = (K_count * N_size_i/N + N_count); // (N_count * K_size_i/K + K_count);
+  assign sram_b_addr_o =  (N_count * K_size_i/K + K_count); //(K_count * N_size_i/N + N_count); //
 
   // Output address for matrix C
   always_ff @(posedge clk_i or negedge rst_ni) begin
@@ -179,8 +179,8 @@ module gemm_accelerator_top #(
       ) i_mac_pe (
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
-        .a_i          ( sram_a_rdata_i[m*K*8+:K*8] ),
-        .b_i          ( sram_b_rdata_i[n*K*8+:K*8] ),                  
+        .a_i          ( sram_a_rdata_i[(M-m)*K*8-K*8+:K*8] ),
+        .b_i          ( sram_b_rdata_i[(N-n)*K*8-K*8+:K*8] ),        // [(N-n)*Ki*8]          
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
         .init_save_i  ( sram_c_we_o || start_i ),

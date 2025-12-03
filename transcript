@@ -1,4 +1,25 @@
-# Reading pref.tcl
+# do questasim.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
+# Start time: 17:34:36 on Dec 03,2025
+# vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
+# -- Compiling module general_mac_pe
+# -- Compiling module ceiling_counter
+# -- Compiling module gemm_controller
+# -- Compiling module gemm_accelerator_top
+# -- Compiling module single_port_memory
+# -- Compiling module tb_one_mac_gemm
+# 
+# Top level modules:
+# 	tb_one_mac_gemm
+# End time: 17:34:36 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
+# Start time: 17:34:36 on Dec 03,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # //  Questa Sim-64
 # //  Version 2022.4 linux_x86_64 Oct 18 2022
 # //
@@ -42,11 +63,11 @@
 # Loading work.ceiling_counter(fast)
 # Loading work.general_mac_pe(fast)
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'M_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(47).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 174
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 177
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'K_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(48).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 174
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 177
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'N_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(49).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 174
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 177
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_K_counter File: rtl/gemm/gemm_controller.sv Line: 115
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
@@ -54,12 +75,11 @@
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_M_counter File: rtl/gemm/gemm_controller.sv Line: 143
 # Test number: 0
-# M: 4, K: 4, N: 4
-# GEMM operation completed in 2 cycles
-# test_depth = 1
-# Mi = 4, Ni = 4
-# test_depth = 1
-# ERROR: Mismatch at address 0: expected fffffd41, got fffffa82
+# M: 32, K: 32, N: 32
+# GEMM operation completed in 512 cycles
+# test_depth = 1024
+# Mi = 32, Ni = 32
+# test_depth = 0
 # Result matrix C verification passed!
 # All test tasks completed successfully!
 # ** Note: $finish    : tb/tb_one_mac_gemm.sv(346)
