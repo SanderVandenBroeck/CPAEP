@@ -26,9 +26,9 @@ module tb_one_mac_gemm;
   parameter int unsigned SizeAddrWidth = 8;
 
   // added ourselves
-  parameter int unsigned M = 4;
-  parameter int unsigned N = 4;
-  parameter int unsigned K = 4;
+  parameter int unsigned M = 1;
+  parameter int unsigned K = 64;
+  parameter int unsigned N = 1;
 
   // Input Data Width Parameters
   parameter int unsigned InDataWidthA = 8 * M * K; // Matrix A
@@ -41,9 +41,9 @@ module tb_one_mac_gemm;
   parameter int unsigned MaxNum   = 64;
   parameter int unsigned NumTests = 1; //10;
 
-  parameter int unsigned SingleM = 32;
-  parameter int unsigned SingleK = 32;
-  parameter int unsigned SingleN = 32;
+  parameter int unsigned SingleM = 16;
+  parameter int unsigned SingleK = 64;
+  parameter int unsigned SingleN = 4;
   // parameter int unsigned SingleM = 4;
   // parameter int unsigned SingleK = 8;
   // parameter int unsigned SingleN = 4;
@@ -73,7 +73,7 @@ module tb_one_mac_gemm;
 
   logic signed [InDataWidth-1:0] tempA     [0:goldenTempSize-1]; // goldenTempSize should be Ki*Mi in reality, but this is always lower than or equal to goldenTempSize
   logic signed [InDataWidth-1:0] tempB     [0:goldenTempSize-1];
-  logic signed [OutDataWidth-1:0] tempC     [0:goldenTempSize-1];
+  logic signed [OutDataWidth-1:0] tempC    [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedA  [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedB  [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedBT [0:goldenTempSize-1];
@@ -290,7 +290,7 @@ module tb_one_mac_gemm;
       // Initialize memories with random data
       for (integer m = 0; m < M_i/M; m++) begin
         for (integer k = 0; k < K_i/K; k++) begin
-          i_sram_a.memory[m*K_i/K+k] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** (InDataWidth*M*K));
+          i_sram_a.memory[m*K_i/K+k] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** (InDataWidth*M*K));
           // i_sram_a.memory[0] = {8'd0, 8'd1, 8'd2, 8'd3, 8'd4, 8'd5, 8'd6, 8'd7, 8'd8, 8'd9, 8'd10, 8'd11, 8'd12, 8'd13, 8'd14, 8'd15};
           // i_sram_a.memory[1] = {8'd16, 8'd17, 8'd18, 8'd19, 8'd20, 8'd21, 8'd22, 8'd23, 8'd24, 8'd25, 8'd26, 8'd27, 8'd28, 8'd29, 8'd30, 8'd31};
 
@@ -299,7 +299,7 @@ module tb_one_mac_gemm;
 
       for (integer k = 0; k < K_i/K; k++) begin
         for (integer n = 0; n < N_i/N; n++) begin
-          i_sram_b.memory[k*N_i/N+n] = {$urandom(),$urandom(),$urandom(),$urandom()}; //% (2 ** InDataWidth*K*N);
+          i_sram_b.memory[k*N_i/N+n] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** InDataWidth*K*N);
           // i_sram_b.memory[0] = {8'd0, 8'd1, 8'd2, 8'd3, 8'd4, 8'd5, 8'd6, 8'd7, 8'd8, 8'd9, 8'd10, 8'd11, 8'd12, 8'd13, 8'd14, 8'd15};
           // i_sram_b.memory[1] = {8'd16, 8'd17, 8'd18, 8'd19, 8'd20, 8'd21, 8'd22, 8'd23, 8'd24, 8'd25, 8'd26, 8'd27, 8'd28, 8'd29, 8'd30, 8'd31};
         end

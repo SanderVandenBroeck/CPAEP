@@ -1,6 +1,8 @@
 # do questasim.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 17:45:36 on Dec 03,2025
+# Start time: 18:37:57 on Dec 03,2025
 # vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
 # -- Compiling module ceiling_counter
@@ -11,13 +13,12 @@
 # 
 # Top level modules:
 # 	tb_one_mac_gemm
-# End time: 17:45:36 on Dec 03,2025, Elapsed time: 0:00:00
+# End time: 18:37:57 on Dec 03,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 17:45:36 on Dec 03,2025
-# ** Note: (vsim-3812) Design is being optimized...
+# Start time: 18:37:57 on Dec 03,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
-# ** Note: (vopt-143) Recognized 1 FSM in module "gemm_controller(fast)".
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # //  Questa Sim-64
 # //  Version 2022.4 linux_x86_64 Oct 18 2022
@@ -54,14 +55,14 @@
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_M_counter File: rtl/gemm/gemm_controller.sv Line: 143
 # Test number: 0
-# M: 32, K: 32, N: 32
-# GEMM operation completed in 512 cycles
-# test_depth = 1024
-# Mi = 32, Ni = 32
-# test_depth = 0
+# M: 16, K: 64, N: 4
+# GEMM operation completed in 64 cycles
+# test_depth = 64
+# Mi = 16, Ni = 4
+# test_depth = 64
 # Result matrix C verification passed!
 # All test tasks completed successfully!
 # ** Note: $finish    : tb/tb_one_mac_gemm.sv(354)
-#    Time: 5306 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# End time: 17:45:37 on Dec 03,2025, Elapsed time: 0:00:01
+#    Time: 826 ns  Iteration: 0  Instance: /tb_one_mac_gemm
+# End time: 18:37:57 on Dec 03,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 7

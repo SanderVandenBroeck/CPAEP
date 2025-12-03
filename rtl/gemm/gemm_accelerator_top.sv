@@ -83,7 +83,10 @@ module gemm_accelerator_top #(
 
   // Main GeMM controller
   gemm_controller #(
-    .AddrWidth      ( SizeAddrWidth )
+    .AddrWidth      ( SizeAddrWidth ),
+    .K(K),
+    .M(M),
+    .N(N)
   ) i_gemm_controller (
     .clk_i          ( clk_i       ),
     .rst_ni         ( rst_ni      ),
