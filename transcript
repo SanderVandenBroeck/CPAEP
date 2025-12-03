@@ -1,8 +1,6 @@
 # do questasim.do
-# ** Warning: (vlib-34) Library already exists at "work".
-# Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 17:34:36 on Dec 03,2025
+# Start time: 17:45:36 on Dec 03,2025
 # vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
 # -- Compiling module ceiling_counter
@@ -13,12 +11,13 @@
 # 
 # Top level modules:
 # 	tb_one_mac_gemm
-# End time: 17:34:36 on Dec 03,2025, Elapsed time: 0:00:00
+# End time: 17:45:36 on Dec 03,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 17:34:36 on Dec 03,2025
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Start time: 17:45:36 on Dec 03,2025
+# ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
+# ** Note: (vopt-143) Recognized 1 FSM in module "gemm_controller(fast)".
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # //  Questa Sim-64
 # //  Version 2022.4 linux_x86_64 Oct 18 2022
@@ -34,26 +33,6 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# do questasim.do
-# ** Warning: (vlib-34) Library already exists at "work".
-# Errors: 0, Warnings: 1
-# QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 13:32:23 on Dec 03,2025
-# vlog -reportprogress 300 "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
-# -- Compiling module general_mac_pe
-# -- Compiling module ceiling_counter
-# -- Compiling module gemm_controller
-# -- Compiling module gemm_accelerator_top
-# -- Compiling module single_port_memory
-# -- Compiling module tb_one_mac_gemm
-# 
-# Top level modules:
-# 	tb_one_mac_gemm
-# End time: 13:32:24 on Dec 03,2025, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
-# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 13:32:24 on Dec 03,2025
-# ** Note: (vsim-8009) Loading existing optimized design _opt1
 # Loading sv_std.std
 # Loading work.tb_one_mac_gemm(fast)
 # Loading work.single_port_memory(fast)
@@ -82,9 +61,7 @@
 # test_depth = 0
 # Result matrix C verification passed!
 # All test tasks completed successfully!
-# ** Note: $finish    : tb/tb_one_mac_gemm.sv(346)
-#    Time: 206 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# 1
-# Break in Module tb_one_mac_gemm at tb/tb_one_mac_gemm.sv line 346
-# End time: 13:38:40 on Dec 03,2025, Elapsed time: 0:06:16
-# Errors: 0, Warnings: 6
+# ** Note: $finish    : tb/tb_one_mac_gemm.sv(354)
+#    Time: 5306 ns  Iteration: 0  Instance: /tb_one_mac_gemm
+# End time: 17:45:37 on Dec 03,2025, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 7
