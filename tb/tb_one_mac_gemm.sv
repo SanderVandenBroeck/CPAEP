@@ -19,16 +19,16 @@ module tb_one_mac_gemm;
   //---------------------------
 
   // General Parameters
-  parameter int unsigned InDataWidth  = 8;
+  parameter int unsigned InDataWidth    = 8;
   parameter int unsigned goldenTempSize = 1024;
-  parameter int unsigned DataDepth     = 64;
-  parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
-  parameter int unsigned SizeAddrWidth = 8;
+  parameter int unsigned DataDepth      = 64;
+  parameter int unsigned AddrWidth      = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
+  parameter int unsigned SizeAddrWidth  = 8;
 
   // added ourselves
-  parameter int unsigned M = 1;
-  parameter int unsigned K = 64;
-  parameter int unsigned N = 1;
+  parameter int unsigned M = 8;
+  parameter int unsigned K = 4;
+  parameter int unsigned N = 2;
 
   // Input Data Width Parameters
   parameter int unsigned InDataWidthA = 8 * M * K; // Matrix A
@@ -39,11 +39,12 @@ module tb_one_mac_gemm;
   
   // Test Parameters
   parameter int unsigned MaxNum   = 64;
-  parameter int unsigned NumTests = 1; //10;
+  parameter int unsigned ThreeCases = 0; //1;
+  
 
-  parameter int unsigned SingleM = 16;
-  parameter int unsigned SingleK = 64;
-  parameter int unsigned SingleN = 4;
+  parameter int unsigned SingleM = 32;
+  parameter int unsigned SingleK = 32;
+  parameter int unsigned SingleN = 32;
   // parameter int unsigned SingleM = 4;
   // parameter int unsigned SingleK = 8;
   // parameter int unsigned SingleN = 4;
@@ -56,7 +57,7 @@ module tb_one_mac_gemm;
   //---------------------------
   // Size control
   // logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
-  int signed M_i, K_i, N_i;
+  logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
 
   // Removed illegal variable-sized arrays and parameters
   // logic signed [InDataWidth-1:0] orderedA [0:M_i*K_i-1];
@@ -69,6 +70,8 @@ module tb_one_mac_gemm;
   logic start;
   logic done;
   logic unsigned [AddrWidth*M*N:0] test_depth;
+  logic unsigned [1:0] NumTests;
+
 
 
   logic signed [InDataWidth-1:0] tempA     [0:goldenTempSize-1]; // goldenTempSize should be Ki*Mi in reality, but this is always lower than or equal to goldenTempSize
@@ -238,16 +241,29 @@ module tb_one_mac_gemm;
     // Initial reset
     start  = 1'b0;
     rst_ni = 1'b0;
+    NumTests = ThreeCases ? 3 : 1;
     #50;
     rst_ni = 1'b1;
+
+    $display("---------------------------------------------------");
 
     for (integer num_test = 0; num_test < NumTests; num_test++) begin
       $display("Test number: %0d", num_test);
 
-      if (NumTests > 1) begin
-        M_i = $urandom_range(4, MaxNum);
-        K_i = $urandom_range(4, MaxNum);
-        N_i = $urandom_range(4, MaxNum);
+      if (ThreeCases) begin
+        if(num_test == 0) begin
+          M_i = 4;
+          K_i = 64;
+          N_i = 16;
+        end else if(num_test == 1) begin
+          M_i = 16;
+          K_i = 64;
+          N_i = 4;
+        end else if(num_test == 2) begin
+          M_i = 32;
+          K_i = 32;
+          N_i = 32;
+        end
       end else begin
         M_i = SingleM;
         K_i = SingleK;
@@ -339,8 +355,6 @@ module tb_one_mac_gemm;
 
       // Verify the result
       test_depth = (M_i) * (N_i);
-      $display("test_depth = %0d", test_depth);
-      $display("Mi = %0d, Ni = %0d", M_i, N_i);
       verify_result_c(G_memory, reorderedOut, test_depth,
                       0 // Set this to 1 to make mismatches fatal
       );
@@ -348,9 +362,10 @@ module tb_one_mac_gemm;
       // Just some trailing cycles
       // For easier monitoring in waveform
       clk_delay(10);
+      $display("---------------------------------------------------");
     end
 
-    $display("All test tasks completed successfully!");
+    $display("All test tasks completed!");
     $finish;
   end
 

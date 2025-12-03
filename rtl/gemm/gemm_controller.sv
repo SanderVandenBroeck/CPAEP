@@ -30,7 +30,7 @@
 //---------------------------
 
 module gemm_controller #(
-  parameter int unsigned AddrWidth = 16,
+  parameter int unsigned AddrWidth = 8,
   parameter int unsigned K = 4,
   parameter int unsigned M = 4,
   parameter int unsigned N = 4
@@ -64,6 +64,11 @@ module gemm_controller #(
 
   logic clear_counters;
   logic last_counter_last_value;
+
+  logic [AddrWidth-1:0] ceilM, ceilK, ceilN;
+  assign ceilM = M_size_i / M;
+  assign ceilK = K_size_i / K;
+  assign ceilN = N_size_i / N;
 
   // State machine states
   typedef enum logic [1:0] {
@@ -117,7 +122,7 @@ module gemm_controller #(
     .rst_ni       ( rst_ni         ),
     .tick_i       ( move_K_counter ),
     .clear_i      ( clear_counters ),
-    .ceiling_i    ( K_size_i/K     ),
+    .ceiling_i    ( ceilK          ),
     .count_o      ( K_count_o      ),
     .last_value_o ( move_N_counter )
   );
@@ -131,7 +136,7 @@ module gemm_controller #(
     .rst_ni       ( rst_ni         ),
     .tick_i       ( move_N_counter ),
     .clear_i      ( clear_counters ),
-    .ceiling_i    ( N_size_i/N     ),
+    .ceiling_i    ( ceilN          ),
     .count_o      ( N_count_o      ),
     .last_value_o ( move_M_counter )
   );
@@ -145,7 +150,7 @@ module gemm_controller #(
     .rst_ni       ( rst_ni                  ),
     .tick_i       ( move_M_counter          ),
     .clear_i      ( clear_counters          ),
-    .ceiling_i    ( M_size_i/M              ),
+    .ceiling_i    ( ceilM                   ),
     .count_o      ( M_count_o               ),
     .last_value_o ( last_counter_last_value )
   );
