@@ -20,6 +20,7 @@ module tb_one_mac_gemm;
 
   // General Parameters
   parameter int unsigned InDataWidth  = 8;
+  parameter int unsigned goldenTempSize = 1024;
   parameter int unsigned DataDepth     = 64;
   parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
   parameter int unsigned SizeAddrWidth = 8;
@@ -65,6 +66,13 @@ module tb_one_mac_gemm;
   logic start;
   logic done;
   logic unsigned [AddrWidth:0] test_depth;
+
+
+  logic signed [InDataWidth-1:0] tempA     [0:goldenTempSize-1]; // goldenTempSize should be Ki*Mi in reality, but this is always lower than or equal to goldenTempSize
+  logic signed [InDataWidth-1:0] tempB     [0:goldenTempSize-1];
+  logic signed [InDataWidth-1:0] orderedA  [0:goldenTempSize-1];
+  logic signed [InDataWidth-1:0] orderedB  [0:goldenTempSize-1];
+  logic signed [InDataWidth-1:0] orderedBT [0:goldenTempSize-1];
 
   //---------------------------
   // Memory

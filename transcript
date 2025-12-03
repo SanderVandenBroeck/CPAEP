@@ -1,23 +1,4 @@
-# do questasim.do
-# ** Warning: (vlib-34) Library already exists at "work".
-# Errors: 0, Warnings: 1
-# QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 23:15:53 on Dec 02,2025
-# vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
-# -- Compiling module general_mac_pe
-# -- Compiling module ceiling_counter
-# -- Compiling module gemm_controller
-# -- Compiling module gemm_accelerator_top
-# -- Compiling module single_port_memory
-# -- Compiling module tb_one_mac_gemm
-# 
-# Top level modules:
-# 	tb_one_mac_gemm
-# End time: 23:15:53 on Dec 02,2025, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 23:15:53 on Dec 02,2025
-# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Reading pref.tcl
 # //  Questa Sim-64
 # //  Version 2022.4 linux_x86_64 Oct 18 2022
 # //
@@ -32,6 +13,28 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
+# do questasim.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
+# Start time: 02:26:15 on Dec 03,2025
+# vlog -reportprogress 300 "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
+# -- Compiling module general_mac_pe
+# -- Compiling module ceiling_counter
+# -- Compiling module gemm_controller
+# -- Compiling module gemm_accelerator_top
+# -- Compiling module single_port_memory
+# -- Compiling module tb_one_mac_gemm
+# 
+# Top level modules:
+# 	tb_one_mac_gemm
+# End time: 02:26:15 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
+# Start time: 02:26:15 on Dec 03,2025
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # Loading sv_std.std
 # Loading work.tb_one_mac_gemm(fast)
 # Loading work.single_port_memory(fast)
@@ -41,11 +44,11 @@
 # Loading work.ceiling_counter(fast)
 # Loading work.general_mac_pe(fast)
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'M_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(47).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 165
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'K_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(48).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 165
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'N_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(49).
-#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 165
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
 #    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_K_counter File: rtl/gemm/gemm_controller.sv Line: 115
 # ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
@@ -58,73 +61,177 @@
 # test_depth = 64
 # Mi = 32, Ni = 32
 # test_depth = 64
-# ERROR: Mismatch at address 0: expected 00000000, got 00001ece
-# ERROR: Mismatch at address 1: expected 00000000, got 000028a9
-# ERROR: Mismatch at address 2: expected 00000000, got ffff229f
-# ERROR: Mismatch at address 3: expected 00000000, got 00003b17
-# ERROR: Mismatch at address 4: expected 00000000, got 0000561f
-# ERROR: Mismatch at address 5: expected 00000000, got 000029e8
-# ERROR: Mismatch at address 6: expected 00000000, got 00007e04
-# ERROR: Mismatch at address 7: expected 00000000, got 0000341c
-# ERROR: Mismatch at address 8: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 9: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 10: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 11: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 12: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 13: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 14: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 15: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 16: expected 00000000, got 000080fb
-# ERROR: Mismatch at address 17: expected 00000000, got 00005462
-# ERROR: Mismatch at address 18: expected 00000000, got 000067a3
-# ERROR: Mismatch at address 19: expected 00000000, got 00001324
-# ERROR: Mismatch at address 20: expected 00000000, got 000036c2
-# ERROR: Mismatch at address 21: expected 00000000, got ffff2856
-# ERROR: Mismatch at address 22: expected 00000000, got 000033fe
-# ERROR: Mismatch at address 23: expected 00000000, got ffffa0b9
-# ERROR: Mismatch at address 24: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 25: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 26: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 27: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 28: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 29: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 30: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 31: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 32: expected 00000000, got 0000239b
-# ERROR: Mismatch at address 33: expected 00000000, got ffffa47f
-# ERROR: Mismatch at address 34: expected 00000000, got ffffd140
-# ERROR: Mismatch at address 35: expected 00000000, got ffff74d7
-# ERROR: Mismatch at address 36: expected 00000000, got 0000000d
-# ERROR: Mismatch at address 37: expected 00000000, got ffff5da0
-# ERROR: Mismatch at address 38: expected 00000000, got ffff6d99
-# ERROR: Mismatch at address 39: expected 00000000, got 00004e5f
-# ERROR: Mismatch at address 40: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 41: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 42: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 43: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 44: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 45: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 46: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 47: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 48: expected 00000000, got ffffb5f5
-# ERROR: Mismatch at address 49: expected 00000000, got ffff95c8
-# ERROR: Mismatch at address 50: expected 00000000, got ffffd5a6
-# ERROR: Mismatch at address 51: expected 00000000, got 00018ebe
-# ERROR: Mismatch at address 52: expected 00000000, got 00005020
-# ERROR: Mismatch at address 53: expected 00000000, got ffffe908
-# ERROR: Mismatch at address 54: expected 00000000, got ffff9023
-# ERROR: Mismatch at address 55: expected 00000000, got 0000677c
-# ERROR: Mismatch at address 56: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 57: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 58: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 59: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 60: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 61: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 62: expected 00000000, got xxxxxxxx
-# ERROR: Mismatch at address 63: expected 00000000, got xxxxxxxx
+# ERROR: Mismatch at address 0: expected fffff012, got 00001ece
+# ERROR: Mismatch at address 1: expected ffffab24, got 000028a9
+# ERROR: Mismatch at address 2: expected 0000625b, got ffff229f
+# ERROR: Mismatch at address 3: expected ffffbb20, got 00003b17
+# ERROR: Mismatch at address 4: expected 0000b4f9, got 0000561f
+# ERROR: Mismatch at address 5: expected 00003835, got 000029e8
+# ERROR: Mismatch at address 6: expected 00008822, got 00007e04
+# ERROR: Mismatch at address 7: expected ffff6467, got 0000341c
+# ERROR: Mismatch at address 8: expected 00009ac9, got xxxxxxxx
+# ERROR: Mismatch at address 9: expected 00000362, got xxxxxxxx
+# ERROR: Mismatch at address 10: expected 0000b361, got xxxxxxxx
+# ERROR: Mismatch at address 11: expected ffff6de8, got xxxxxxxx
+# ERROR: Mismatch at address 12: expected ffff7bc8, got xxxxxxxx
+# ERROR: Mismatch at address 13: expected 0000b230, got xxxxxxxx
+# ERROR: Mismatch at address 14: expected ffff6533, got xxxxxxxx
+# ERROR: Mismatch at address 15: expected 00003bc8, got xxxxxxxx
+# ERROR: Mismatch at address 16: expected 00016c05, got 000080fb
+# ERROR: Mismatch at address 17: expected ffffd5c4, got 00005462
+# ERROR: Mismatch at address 18: expected ffffb4b7, got 000067a3
+# ERROR: Mismatch at address 19: expected fffff7dc, got 00001324
+# ERROR: Mismatch at address 20: expected fffff02a, got 000036c2
+# ERROR: Mismatch at address 21: expected 00003213, got ffff2856
+# ERROR: Mismatch at address 22: expected 00001a44, got 000033fe
+# ERROR: Mismatch at address 23: expected 0000c087, got ffffa0b9
+# ERROR: Mismatch at address 24: expected ffffc6c6, got xxxxxxxx
+# ERROR: Mismatch at address 25: expected 00001347, got xxxxxxxx
+# ERROR: Mismatch at address 26: expected ffffddc5, got xxxxxxxx
+# ERROR: Mismatch at address 27: expected fffed260, got xxxxxxxx
+# ERROR: Mismatch at address 28: expected ffffc0a2, got xxxxxxxx
+# ERROR: Mismatch at address 29: expected ffffe412, got xxxxxxxx
+# ERROR: Mismatch at address 30: expected ffffd6cc, got xxxxxxxx
+# ERROR: Mismatch at address 31: expected 00008ba2, got xxxxxxxx
+# ERROR: Mismatch at address 32: expected 000044c8, got 0000239b
+# ERROR: Mismatch at address 33: expected 0000519d, got ffffa47f
+# ERROR: Mismatch at address 34: expected 000030b1, got ffffd140
+# ERROR: Mismatch at address 35: expected ffff8543, got ffff74d7
+# ERROR: Mismatch at address 36: expected 00007c09, got 0000000d
+# ERROR: Mismatch at address 37: expected ffff5a9c, got ffff5da0
+# ERROR: Mismatch at address 38: expected 00005f0d, got ffff6d99
+# ERROR: Mismatch at address 39: expected ffffb080, got 00004e5f
+# ERROR: Mismatch at address 40: expected 000018ed, got xxxxxxxx
+# ERROR: Mismatch at address 41: expected 00005a31, got xxxxxxxx
+# ERROR: Mismatch at address 42: expected 000018d5, got xxxxxxxx
+# ERROR: Mismatch at address 43: expected 00002512, got xxxxxxxx
+# ERROR: Mismatch at address 44: expected 000079aa, got xxxxxxxx
+# ERROR: Mismatch at address 45: expected ffff7e5d, got xxxxxxxx
+# ERROR: Mismatch at address 46: expected 0000c5dd, got xxxxxxxx
+# ERROR: Mismatch at address 47: expected 00005596, got xxxxxxxx
+# ERROR: Mismatch at address 48: expected 0000211e, got ffffb5f5
+# ERROR: Mismatch at address 49: expected 00002df8, got ffff95c8
+# ERROR: Mismatch at address 50: expected 0000b234, got ffffd5a6
+# ERROR: Mismatch at address 51: expected ffffd238, got 00018ebe
+# ERROR: Mismatch at address 52: expected 0000601f, got 00005020
+# ERROR: Mismatch at address 53: expected ffff9ab1, got ffffe908
+# ERROR: Mismatch at address 54: expected ffffb078, got ffff9023
+# ERROR: Mismatch at address 55: expected ffff9b1e, got 0000677c
+# ERROR: Mismatch at address 56: expected ffffa3bc, got xxxxxxxx
+# ERROR: Mismatch at address 57: expected 00002149, got xxxxxxxx
+# ERROR: Mismatch at address 58: expected 0000013c, got xxxxxxxx
+# ERROR: Mismatch at address 59: expected ffff2492, got xxxxxxxx
+# ERROR: Mismatch at address 60: expected fffed0cc, got xxxxxxxx
+# ERROR: Mismatch at address 61: expected 0000550d, got xxxxxxxx
+# ERROR: Mismatch at address 62: expected 00008d78, got xxxxxxxx
+# ERROR: Mismatch at address 63: expected ffff6fbd, got xxxxxxxx
 # Result matrix C verification passed!
 # All test tasks completed successfully!
-# ** Note: $finish    : tb/tb_one_mac_gemm.sv(324)
+# ** Note: $finish    : tb/tb_one_mac_gemm.sv(332)
 #    Time: 5306 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# End time: 23:15:53 on Dec 02,2025, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 6
+# 1
+# Break in Module tb_one_mac_gemm at tb/tb_one_mac_gemm.sv line 332
+add wave -position insertpoint  \
+sim:/tb_one_mac_gemm/tempA \
+sim:/tb_one_mac_gemm/orderedA
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.tb_one_mac_gemm(fast)
+# Loading work.single_port_memory(fast)
+# Loading work.single_port_memory(fast__1)
+# Loading work.gemm_accelerator_top(fast)
+# Loading work.gemm_controller(fast)
+# Loading work.ceiling_counter(fast)
+# Loading work.general_mac_pe(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'M_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(47).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'K_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(48).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'N_size_i'. The port definition is at: rtl/gemm/gemm_accelerator_top.sv(49).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut File: tb/tb_one_mac_gemm.sv Line: 173
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_K_counter File: rtl/gemm/gemm_controller.sv Line: 115
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_N_counter File: rtl/gemm/gemm_controller.sv Line: 129
+# ** Warning: (vsim-3015) [PCDPC] - Port size (8) does not match connection size (32) for port 'ceiling_i'. The port definition is at: rtl/common/ceiling_counter.sv(32).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_one_mac_gemm/i_dut/i_gemm_controller/i_M_counter File: rtl/gemm/gemm_controller.sv Line: 143
+run -continue
+# Test number: 0
+# M: 32, K: 32, N: 32
+# GEMM operation completed in 512 cycles
+# test_depth = 64
+# Mi = 32, Ni = 32
+# test_depth = 64
+# ERROR: Mismatch at address 0: expected fffff012, got 00001ece
+# ERROR: Mismatch at address 1: expected ffffab24, got 000028a9
+# ERROR: Mismatch at address 2: expected 0000625b, got ffff229f
+# ERROR: Mismatch at address 3: expected ffffbb20, got 00003b17
+# ERROR: Mismatch at address 4: expected 0000b4f9, got 0000561f
+# ERROR: Mismatch at address 5: expected 00003835, got 000029e8
+# ERROR: Mismatch at address 6: expected 00008822, got 00007e04
+# ERROR: Mismatch at address 7: expected ffff6467, got 0000341c
+# ERROR: Mismatch at address 8: expected 00009ac9, got xxxxxxxx
+# ERROR: Mismatch at address 9: expected 00000362, got xxxxxxxx
+# ERROR: Mismatch at address 10: expected 0000b361, got xxxxxxxx
+# ERROR: Mismatch at address 11: expected ffff6de8, got xxxxxxxx
+# ERROR: Mismatch at address 12: expected ffff7bc8, got xxxxxxxx
+# ERROR: Mismatch at address 13: expected 0000b230, got xxxxxxxx
+# ERROR: Mismatch at address 14: expected ffff6533, got xxxxxxxx
+# ERROR: Mismatch at address 15: expected 00003bc8, got xxxxxxxx
+# ERROR: Mismatch at address 16: expected 00016c05, got 000080fb
+# ERROR: Mismatch at address 17: expected ffffd5c4, got 00005462
+# ERROR: Mismatch at address 18: expected ffffb4b7, got 000067a3
+# ERROR: Mismatch at address 19: expected fffff7dc, got 00001324
+# ERROR: Mismatch at address 20: expected fffff02a, got 000036c2
+# ERROR: Mismatch at address 21: expected 00003213, got ffff2856
+# ERROR: Mismatch at address 22: expected 00001a44, got 000033fe
+# ERROR: Mismatch at address 23: expected 0000c087, got ffffa0b9
+# ERROR: Mismatch at address 24: expected ffffc6c6, got xxxxxxxx
+# ERROR: Mismatch at address 25: expected 00001347, got xxxxxxxx
+# ERROR: Mismatch at address 26: expected ffffddc5, got xxxxxxxx
+# ERROR: Mismatch at address 27: expected fffed260, got xxxxxxxx
+# ERROR: Mismatch at address 28: expected ffffc0a2, got xxxxxxxx
+# ERROR: Mismatch at address 29: expected ffffe412, got xxxxxxxx
+# ERROR: Mismatch at address 30: expected ffffd6cc, got xxxxxxxx
+# ERROR: Mismatch at address 31: expected 00008ba2, got xxxxxxxx
+# ERROR: Mismatch at address 32: expected 000044c8, got 0000239b
+# ERROR: Mismatch at address 33: expected 0000519d, got ffffa47f
+# ERROR: Mismatch at address 34: expected 000030b1, got ffffd140
+# ERROR: Mismatch at address 35: expected ffff8543, got ffff74d7
+# ERROR: Mismatch at address 36: expected 00007c09, got 0000000d
+# ERROR: Mismatch at address 37: expected ffff5a9c, got ffff5da0
+# ERROR: Mismatch at address 38: expected 00005f0d, got ffff6d99
+# ERROR: Mismatch at address 39: expected ffffb080, got 00004e5f
+# ERROR: Mismatch at address 40: expected 000018ed, got xxxxxxxx
+# ERROR: Mismatch at address 41: expected 00005a31, got xxxxxxxx
+# ERROR: Mismatch at address 42: expected 000018d5, got xxxxxxxx
+# ERROR: Mismatch at address 43: expected 00002512, got xxxxxxxx
+# ERROR: Mismatch at address 44: expected 000079aa, got xxxxxxxx
+# ERROR: Mismatch at address 45: expected ffff7e5d, got xxxxxxxx
+# ERROR: Mismatch at address 46: expected 0000c5dd, got xxxxxxxx
+# ERROR: Mismatch at address 47: expected 00005596, got xxxxxxxx
+# ERROR: Mismatch at address 48: expected 0000211e, got ffffb5f5
+# ERROR: Mismatch at address 49: expected 00002df8, got ffff95c8
+# ERROR: Mismatch at address 50: expected 0000b234, got ffffd5a6
+# ERROR: Mismatch at address 51: expected ffffd238, got 00018ebe
+# ERROR: Mismatch at address 52: expected 0000601f, got 00005020
+# ERROR: Mismatch at address 53: expected ffff9ab1, got ffffe908
+# ERROR: Mismatch at address 54: expected ffffb078, got ffff9023
+# ERROR: Mismatch at address 55: expected ffff9b1e, got 0000677c
+# ERROR: Mismatch at address 56: expected ffffa3bc, got xxxxxxxx
+# ERROR: Mismatch at address 57: expected 00002149, got xxxxxxxx
+# ERROR: Mismatch at address 58: expected 0000013c, got xxxxxxxx
+# ERROR: Mismatch at address 59: expected ffff2492, got xxxxxxxx
+# ERROR: Mismatch at address 60: expected fffed0cc, got xxxxxxxx
+# ERROR: Mismatch at address 61: expected 0000550d, got xxxxxxxx
+# ERROR: Mismatch at address 62: expected 00008d78, got xxxxxxxx
+# ERROR: Mismatch at address 63: expected ffff6fbd, got xxxxxxxx
+# Result matrix C verification passed!
+# All test tasks completed successfully!
+# ** Note: $finish    : tb/tb_one_mac_gemm.sv(332)
+#    Time: 5306 ns  Iteration: 0  Instance: /tb_one_mac_gemm
+# 1
+# Break in Module tb_one_mac_gemm at tb/tb_one_mac_gemm.sv line 332
