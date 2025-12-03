@@ -24,8 +24,8 @@ endtask
 
 // Task to verify the resulting matrix
 task automatic verify_result_c(
-  input logic signed [OutDataWidth-1:0] golden_data [DataDepth],
-  input logic signed [OutDataWidth-1:0] actual_data [DataDepth],
+  input logic signed [OutDataWidth-1:0] golden_data [goldenTempSize],
+  input logic signed [OutDataWidth-1:0] actual_data [goldenTempSize],
   input logic        [   AddrWidth:0] num_data,
   input logic                           fatal_on_mismatch
 );

@@ -41,12 +41,12 @@ module tb_one_mac_gemm;
   parameter int unsigned MaxNum   = 64;
   parameter int unsigned NumTests = 1; //10;
 
-  parameter int unsigned SingleM = 32;
-  parameter int unsigned SingleK = 32;
-  parameter int unsigned SingleN = 32;
+  parameter int unsigned SingleM = 4;
+  parameter int unsigned SingleK = 4;
+  parameter int unsigned SingleN = 4;
 
-  int unsigned tempAddr, floorN, floorM;
-  
+  int unsigned tempAddr, floorN, floorM, floorC, floorExtraC;
+  int signed acc;
 
   //---------------------------
   // Wiresq
@@ -70,6 +70,7 @@ module tb_one_mac_gemm;
 
   logic signed [InDataWidth-1:0] tempA     [0:goldenTempSize-1]; // goldenTempSize should be Ki*Mi in reality, but this is always lower than or equal to goldenTempSize
   logic signed [InDataWidth-1:0] tempB     [0:goldenTempSize-1];
+  logic signed [OutDataWidth-1:0] tempC     [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedA  [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedB  [0:goldenTempSize-1];
   logic signed [InDataWidth-1:0] orderedBT [0:goldenTempSize-1];
@@ -78,8 +79,8 @@ module tb_one_mac_gemm;
   // Memory
   //---------------------------
   // Golden data dump
-  logic signed [OutDataWidth-1:0] G_memory [DataDepth]; 
-  logic signed [OutDataWidth-1:0] reorderedOut [DataDepth];
+  logic signed [OutDataWidth-1:0] G_memory [0:goldenTempSize-1]; 
+  logic signed [OutDataWidth-1:0] reorderedOut [0:goldenTempSize-1];
 
   // Memory control
   logic [AddrWidth-1:0] sram_a_addr;
@@ -306,14 +307,27 @@ module tb_one_mac_gemm;
       start_and_wait_gemm();
 
       // Reorder output memory layout
-      for (int unsigned m = 0; m < M_i; m++) begin
-        for (int unsigned n = 0; n < N_i; n++) begin
-          floorN = n/N;
-          floorM = m/M;
-          tempAddr = floorN*M*K + floorM*M*K_i + n%N + (m%M)*N; // floor(n,N)*M*K + floor(m,M)*M*Ni + mod(n,N) + mod(m,M)*N
-          reorderedOut[tempAddr] = i_sram_c.memory[N_i*m + n];
+      // for (int unsigned m = 0; m < M_i; m++) begin
+      //   for (int unsigned n = 0; n < N_i; n++) begin
+      //     floorN = n/N;
+      //     floorM = m/M;
+      //     tempAddr = floorN*M*K + floorM*M*K_i + n%N + (m%M)*N; // floor(n,N)*M*K + floor(m,M)*M*Ni + mod(n,N) + mod(m,M)*N
+      //     reorderedOut[tempAddr] = i_sram_c.memory[N_i*m + n];
+      //   end
+      // end
+      // Place concatenated words of A_i into array tempA with only 8 bit words
+      for (int unsigned t = 0; t < (N_i/N) * (M_i/M); t++) begin
+        for (int unsigned u = 0; u < M*N; u++) begin
+          tempC[t*N*M + u] = i_sram_c.memory[t][u*OutDataWidth+:OutDataWidth];
         end
       end
+
+      for (int unsigned t = 0; t < N_i*M_i; t+=N) begin
+        floorC = t/(M*N);
+        floorExtraC = t/(M*N_i);
+        reorderedOut[(t%(M*N)) * (N_i/N) + floorC*N + floorExtraC*(M-1)*N_i +:N] = tempC[t+:N];
+      end
+
 
       // Verify the result
       test_depth = (M_i/M) * (N_i/N);

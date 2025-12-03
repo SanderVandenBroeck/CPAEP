@@ -7,7 +7,7 @@ function automatic void gemm_golden(
   input  logic [SizeAddrWidth-1:0] Ni,
   input  logic signed [ InDataWidthA-1:0] A_i [DataDepth],
   input  logic signed [ InDataWidthB-1:0] B_i [DataDepth],
-  output logic signed [ OutDataWidth-1:0] Y_o [DataDepth]
+  output logic signed [ OutDataWidth-1:0] Y_o [goldenTempSize]
 );
   // int unsigned m, n, k;
   // int signed acc;
@@ -25,7 +25,7 @@ function automatic void gemm_golden(
   int unsigned m2, n2, k2;
   int unsigned floorA, floorExtra, tempAddrA;
   int unsigned floorB, floorExtraB, tempAddrB;
-  int signed acc;
+
 
   // Use constant bounds (DataDepth) instead of variable bounds
 
@@ -52,6 +52,7 @@ function automatic void gemm_golden(
     orderedA[(t%(M*K)) * (Ki/K) + floorA*K + floorExtra*(M-1)*Ki +:K] = tempA[t+:K];
   end
 
+  // start with B input
   // Place concatenated words of B_i into array tempB with only 8 bit words
   for (int unsigned t = 0; t < (Ki/K) * (Ni/N); t++) begin
     for (int unsigned u = 0; u < N*K; u++) begin
@@ -59,7 +60,7 @@ function automatic void gemm_golden(
     end
   end
 
-  // Reorder B matrix
+ 
   // same as previous:
   // for (int unsigned n = 0; n < Ni; n++) begin
   //   for (int unsigned kB = 0; kB < Ki; kB++) begin
@@ -75,15 +76,13 @@ function automatic void gemm_golden(
     orderedBT[(t%(N*K)) * (Ki/K) + floorB*K + floorExtraB*(N-1)*Ki +:K] = tempB[t+:K];
   end
 
-
-  // Tranpose B
+  // Transpose B
   for (int unsigned k = 0; k < Ki; k++) begin
     for (int unsigned n = 0; n < Ni; n++) begin
-      orderedB[ n*Ki + k ] = orderedBT[ k*Ni + n ];
+      orderedB[n*Ki+k] = orderedBT[k*Ni+n];
     end
   end
   
-
 
 
   for (m2 = 0; m2 < Mi; m2++) begin
