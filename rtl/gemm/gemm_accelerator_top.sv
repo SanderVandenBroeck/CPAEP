@@ -65,7 +65,33 @@ module gemm_accelerator_top #(
   logic [SizeAddrWidth-1:0] N_count;
   logic busy;
   logic valid_data;
-  assign valid_data = start_i || busy;  // Always valid in this simple design
+  logic result_valid_w, done_w;
+  logic result_valid_d, done_d;
+  logic [AddrWidth-1:0] sram_c_addr_d;
+
+  assign valid_data = busy && !done_o;  // Only valid when busy and not finishing
+
+  // Pipeline registers for control signals to match SRAM latency
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni) begin
+      result_valid_d <= 1'b0;
+      done_d         <= 1'b0;
+    end else begin
+      result_valid_d <= result_valid_w;
+      done_d         <= done_w;
+    end
+  end
+
+  assign sram_c_we_o = result_valid_w;
+  assign done_o      = done_w;
+
+  // always @(posedge clk_i) begin
+  //   if (sram_c_we_o) begin
+  //     $display("Time: %0t | Write C: Addr=%0d, Data=%h | M=%0d, N=%0d, K=%0d | Addr_d=%0d", 
+  //              $time, sram_c_addr_o, sram_c_wdata_o, M_count, N_count, K_count, sram_c_addr_o);
+  //   end
+  // end
+
 
   //---------------------------
   // DESIGN NOTE:
@@ -88,9 +114,9 @@ module gemm_accelerator_top #(
     .rst_ni         ( rst_ni      ),
     .start_i        ( start_i     ),
     .input_valid_i  ( 1'b1        ),  // Always valid in this simple design
-    .result_valid_o ( sram_c_we_o ),
+    .result_valid_o ( result_valid_w ),
     .busy_o         ( busy        ),
-    .done_o         ( done_o      ),
+    .done_o         ( done_w      ),
     .M_size_i       ( M_size_i    ),
     .K_size_i       ( K_size_i    ),
     .N_size_i       ( N_size_i    ),
@@ -122,7 +148,7 @@ module gemm_accelerator_top #(
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       sram_c_addr_o <= '0;
-    end else if (1'b1) begin  // Always valid in this simple design
+    end else begin
       sram_c_addr_o <= (M_count * N_size_i/N + N_count);
     end
   end
@@ -170,6 +196,13 @@ module gemm_accelerator_top #(
   genvar m, k, n, i;
   generate
   for (n = 0; n < N; n++) begin : gem_mac_pe_n
+    logic signed [K*InDataWidth-1:0] b_col_n;
+    always_comb begin
+      for (int k_idx = 0; k_idx < K; k_idx++) begin
+        b_col_n[k_idx*InDataWidth +: InDataWidth] = sram_b_rdata_i[(k_idx*N + n)*InDataWidth +: InDataWidth];
+      end
+    end
+
     for (m = 0; m < M; m++) begin : gem_mac_pe_m
       logic [OutDataWidth-1:0] wdata;
       general_mac_pe #(
@@ -180,10 +213,10 @@ module gemm_accelerator_top #(
         .clk_i        ( clk_i                  ),
         .rst_ni       ( rst_ni                 ),
         .a_i          ( sram_a_rdata_i[m*K*8+:K*8] ),
-        .b_i          ( sram_b_rdata_i[n*K*8+:K*8] ),                  
+        .b_i          ( b_col_n                ),                  
         .a_valid_i    ( valid_data             ),
         .b_valid_i    ( valid_data             ),
-        .init_save_i  ( sram_c_we_o || start_i ),
+        .init_save_i  ( sram_c_we_o            ),
         .acc_clr_i    ( !busy                  ),
         .c_o          ( wdata         )
       );

@@ -1,2 +1,0 @@
-var g_data = {"5":["work.ceiling_counter",93.80,1],"3":["work.gemm_accelerator_top",95.41,1],"4":["work.gemm_controller",90.75,1],"6":["work.general_mac_pe",80.27,1],"2":["work.single_port_memory",98.94,1],"1":["work.tb_one_mac_gemm",47.78,1]};
-processDuLinks(g_data);

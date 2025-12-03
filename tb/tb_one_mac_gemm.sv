@@ -20,8 +20,8 @@ module tb_one_mac_gemm;
 
   // General Parameters
   parameter int unsigned InDataWidth  = 8;
-  parameter int unsigned goldenTempSize = 1024;
-  parameter int unsigned DataDepth     = 64;
+  parameter int unsigned goldenTempSize = 4096;
+  parameter int unsigned DataDepth     = 4096;
   parameter int unsigned AddrWidth     = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
   parameter int unsigned SizeAddrWidth = 8;
 
@@ -39,11 +39,10 @@ module tb_one_mac_gemm;
   
   // Test Parameters
   parameter int unsigned MaxNum   = 64;
-  parameter int unsigned NumTests = 1; //10;
-
-  parameter int unsigned SingleM = 4;
-  parameter int unsigned SingleK = 4;
-  parameter int unsigned SingleN = 4;
+  int NumTests = 1;
+  parameter int unsigned SingleM = 32;
+  parameter int unsigned SingleK = 32;
+  parameter int unsigned SingleN = 32;
 
   int unsigned tempAddr, floorN, floorM, floorC, floorExtraC;
   int signed acc;
@@ -79,8 +78,8 @@ module tb_one_mac_gemm;
   // Memory
   //---------------------------
   // Golden data dump
-  logic signed [OutDataWidth-1:0] G_memory [0:goldenTempSize-1]; 
-  logic signed [OutDataWidth-1:0] reorderedOut [0:goldenTempSize-1];
+  logic signed [OutDataWidth-1:0] G_memory [DataDepth]; 
+  logic signed [OutDataWidth-1:0] reorderedOut [DataDepth];
 
   // Memory control
   logic [AddrWidth-1:0] sram_a_addr;
@@ -242,9 +241,9 @@ module tb_one_mac_gemm;
       $display("Test number: %0d", num_test);
 
       if (NumTests > 1) begin
-        M_i = $urandom_range(4, MaxNum);
-        K_i = $urandom_range(4, MaxNum);
-        N_i = $urandom_range(4, MaxNum);
+        M_i = ($urandom_range(4, MaxNum)/4)*4;
+        K_i = ($urandom_range(4, MaxNum)/4)*4;
+        N_i = ($urandom_range(4, MaxNum)/4)*4;
       end else begin
         M_i = SingleM;
         K_i = SingleK;
@@ -322,17 +321,49 @@ module tb_one_mac_gemm;
         end
       end
 
-      for (int unsigned t = 0; t < N_i*M_i; t+=N) begin
-        floorC = t/(M*N);
-        floorExtraC = t/(M*N_i);
-        reorderedOut[(t%(M*N)) * (N_i/N) + floorC*N + floorExtraC*(M-1)*N_i +:N] = tempC[t+:N];
+      // Reorder output memory layout
+      // Use truncated dimensions for reordering to match Golden Model
+      begin
+        int Ni_trunc;
+        int Mi_trunc;
+        int test_depth_calc;
+        int tile_idx;
+        int row_in_tile;
+        int tile_row;
+        int tile_col;
+        int global_row;
+        int global_col;
+        int linear_idx;
+
+        Ni_trunc = (N_i/N)*N;
+        Mi_trunc = (M_i/M)*M;
+        test_depth_calc = Mi_trunc * Ni_trunc;
+
+        for (int unsigned t = 0; t < test_depth_calc; t+=N) begin
+          // Tile index
+          tile_idx = t / (M*N);
+          // Row within tile
+          row_in_tile = (t % (M*N)) / N;
+          
+          // Tile coordinates
+          tile_row = tile_idx / (Ni_trunc/N);
+          tile_col = tile_idx % (Ni_trunc/N);
+          
+          // Global coordinates
+          global_row = tile_row * M + row_in_tile;
+          global_col = tile_col * N;
+          
+          // Linear index
+          linear_idx = global_row * Ni_trunc + global_col;
+          
+          reorderedOut[linear_idx +: N] = tempC[t +: N];
+        end
       end
 
 
       // Verify the result
-      test_depth = (M_i/M) * (N_i/N);
-      $display("test_depth = %0d", test_depth);
-      $display("Mi = %0d, Ni = %0d", M_i, N_i);
+      test_depth = (M_i/M) * (N_i/N) * M * N;
+
       verify_result_c(G_memory, reorderedOut, test_depth,
                       0 // Set this to 1 to make mismatches fatal
       );

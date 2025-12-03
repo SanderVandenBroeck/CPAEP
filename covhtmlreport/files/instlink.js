@@ -1,2 +1,0 @@
-var g_data = {"8":[7,"i_sram_a",1],"9":[7,"i_sram_b",1],"10":[7,"i_sram_c",1],"13":[12,"i_K_counter",1],"14":[12,"i_N_counter",1],"15":[12,"i_M_counter",1],"12":[11,"i_gemm_controller",1],"16":[11,"i_mac_pe",1],"11":[7,"i_dut",1],"7":[-1,"tb_one_mac_gemm",1]};
-processInstLinks(g_data);

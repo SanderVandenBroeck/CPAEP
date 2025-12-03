@@ -1,2 +1,0 @@
-var g_data = ["","tb/tb_one_mac_gemm.sv","includes/common_tasks.svh","includes/test_tasks.svh","includes/test_func.svh","rtl/common/single_port_memory.sv","rtl/gemm/gemm_accelerator_top.sv","rtl/gemm/gemm_controller.sv","rtl/common/ceiling_counter.sv","rtl/gemm/general_mac_pe.sv"];
-processSrcNamesData(g_data);
