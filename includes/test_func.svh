@@ -24,7 +24,7 @@ function automatic void gemm_golden(
 
   int unsigned m2, n2, k2;
   int unsigned floorA, floorExtra, tempAddrA;
-  int unsigned floorKB, floorNB, tempAddrB;
+  int unsigned floorB, floorExtraB, tempAddrB;
   int signed acc;
 
   // Use constant bounds (DataDepth) instead of variable bounds
@@ -46,29 +46,36 @@ function automatic void gemm_golden(
   //     orderedA[tempAddrA] = tempA[Ki*m + k];
   //   end
   // end
-  for (int unsigned t = 0; t < Ki*Mi; t+=4) begin
+  for (int unsigned t = 0; t < Ki*Mi; t+=K) begin
     floorA = t/(M*K);
     floorExtra = t/(M*Ki);
     orderedA[(t%(M*K)) * (Ki/K) + floorA*K + floorExtra*(M-1)*Ki +:K] = tempA[t+:K];
   end
 
   // Place concatenated words of B_i into array tempB with only 8 bit words
-  for (int unsigned t = 0; t < (Ki/K) * (Ni/M); t++) begin
-    for (int unsigned u = 0; u < M*K; u++) begin
+  for (int unsigned t = 0; t < (Ki/K) * (Ni/N); t++) begin
+    for (int unsigned u = 0; u < N*K; u++) begin
       tempB[t*K*N + u] = B_i[t][u*InDataWidth+:InDataWidth];
     end
   end
 
   // Reorder B matrix
   // same as previous:
-  for (int unsigned n = 0; n < Ni; n++) begin
-    for (int unsigned kB = 0; kB < Ki; kB++) begin
-      floorKB = kB/K;
-      floorNB = n/N;
-      tempAddrB = floorKB*N*K + floorNB*N*Ki + kB%K + (n%N)*K; // floor(k,K)*M*K + floor(m,M)*M*Ki + mod(k,K) + mod(m,M)*K
-      orderedBT[tempAddrB] = tempB[Ki*n + kB];
-    end
+  // for (int unsigned n = 0; n < Ni; n++) begin
+  //   for (int unsigned kB = 0; kB < Ki; kB++) begin
+  //     floorKB = kB/K;
+  //     floorNB = n/N;
+  //     tempAddrB = floorKB*N*K + floorNB*N*Ki + kB%K + (n%N)*K; // floor(k,K)*M*K + floor(m,M)*M*Ki + mod(k,K) + mod(m,M)*K
+  //     orderedBT[tempAddrB] = tempB[Ki*n + kB];
+  //   end
+  // end
+  for (int unsigned t = 0; t < Ki*Ni; t+=K) begin
+    floorB = t/(N*K);
+    floorExtraB = t/(N*Ki);
+    orderedBT[(t%(N*K)) * (Ki/K) + floorB*K + floorExtraB*(N-1)*Ki +:K] = tempB[t+:K];
   end
+
+
   // Tranpose B
   for (int unsigned k = 0; k < Ki; k++) begin
     for (int unsigned n = 0; n < Ni; n++) begin
