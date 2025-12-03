@@ -26,20 +26,22 @@ module tb_one_mac_gemm;
   parameter int unsigned SizeAddrWidth  = 8;
 
   // added ourselves
-  parameter int unsigned M = 8;
-  parameter int unsigned K = 4;
-  parameter int unsigned N = 2;
+  parameter int unsigned M = 2;
+  parameter int unsigned K = 32;
+  parameter int unsigned N = 1;
 
   // Input Data Width Parameters
   parameter int unsigned InDataWidthA = 8 * M * K; // Matrix A
   parameter int unsigned InDataWidthB = 8 * K * N; // Matrix B
+  parameter int unsigned DataDepthC   = 32*32/(M*N); // 512;
+  parameter int unsigned AddrWidthC   = (DataDepthC <= 1) ? 1 : $clog2(DataDepthC);
 
   // Output Data Width Parameters
   parameter int unsigned OutDataWidth = 32; // Matrix C
   
   // Test Parameters
   parameter int unsigned MaxNum   = 64;
-  parameter int unsigned ThreeCases = 0; //1;
+  parameter int unsigned ThreeCases = 1; //1;
   
 
   parameter int unsigned SingleM = 32;
@@ -91,7 +93,7 @@ module tb_one_mac_gemm;
   // Memory control
   logic [AddrWidth-1:0] sram_a_addr;
   logic [AddrWidth-1:0] sram_b_addr;
-  logic [AddrWidth-1:0] sram_c_addr;
+  logic [AddrWidthC-1:0] sram_c_addr;
 
   // Memory access
   logic signed [ InDataWidthA-1:0] sram_a_rdata;
@@ -155,8 +157,8 @@ module tb_one_mac_gemm;
   // Note: this is write only
   single_port_memory #(
     .DataWidth     ( OutDataWidth*M*N ),
-    .DataDepth     ( DataDepth    ),
-    .AddrWidth     ( AddrWidth    )
+    .DataDepth     ( DataDepthC   ),
+    .AddrWidth     ( AddrWidthC   )
   ) i_sram_c (
     .clk_i         ( clk_i        ),
     .rst_ni        ( rst_ni       ),
@@ -176,7 +178,8 @@ module tb_one_mac_gemm;
     .SizeAddrWidth ( SizeAddrWidth ),
     .M             ( M             ),
     .N             ( N             ),
-    .K             ( K             )
+    .K             ( K             ),
+    .AddrWidthC    ( AddrWidthC    )
   ) i_dut (
     .clk_i          ( clk_i        ),
     .rst_ni         ( rst_ni       ),
@@ -306,7 +309,7 @@ module tb_one_mac_gemm;
       // Initialize memories with random data
       for (integer m = 0; m < M_i/M; m++) begin
         for (integer k = 0; k < K_i/K; k++) begin
-          i_sram_a.memory[m*K_i/K+k] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** (InDataWidth*M*K));
+          i_sram_a.memory[m*K_i/K+k] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** (InDataWidth*M*K));
           // i_sram_a.memory[0] = {8'd0, 8'd1, 8'd2, 8'd3, 8'd4, 8'd5, 8'd6, 8'd7, 8'd8, 8'd9, 8'd10, 8'd11, 8'd12, 8'd13, 8'd14, 8'd15};
           // i_sram_a.memory[1] = {8'd16, 8'd17, 8'd18, 8'd19, 8'd20, 8'd21, 8'd22, 8'd23, 8'd24, 8'd25, 8'd26, 8'd27, 8'd28, 8'd29, 8'd30, 8'd31};
 
@@ -315,7 +318,7 @@ module tb_one_mac_gemm;
 
       for (integer k = 0; k < K_i/K; k++) begin
         for (integer n = 0; n < N_i/N; n++) begin
-          i_sram_b.memory[k*N_i/N+n] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** InDataWidth*K*N);
+          i_sram_b.memory[k*N_i/N+n] = {$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom(),$urandom()} ;//% (2 ** InDataWidth*K*N);
           // i_sram_b.memory[0] = {8'd0, 8'd1, 8'd2, 8'd3, 8'd4, 8'd5, 8'd6, 8'd7, 8'd8, 8'd9, 8'd10, 8'd11, 8'd12, 8'd13, 8'd14, 8'd15};
           // i_sram_b.memory[1] = {8'd16, 8'd17, 8'd18, 8'd19, 8'd20, 8'd21, 8'd22, 8'd23, 8'd24, 8'd25, 8'd26, 8'd27, 8'd28, 8'd29, 8'd30, 8'd31};
         end
@@ -339,7 +342,7 @@ module tb_one_mac_gemm;
       //     reorderedOut[tempAddr] = i_sram_c.memory[N_i*m + n];
       //   end
       // end
-      // Place concatenated words of A_i into array tempA with only 8 bit words
+      // Place concatenated words of C into array tempC with only 32 bit words
       for (int unsigned t = 0; t < (N_i/N) * (M_i/M); t++) begin
         for (int unsigned u = 0; u < M*N; u++) begin
           tempC[t*N*M + u] = i_sram_c.memory[t][u*OutDataWidth+:OutDataWidth];

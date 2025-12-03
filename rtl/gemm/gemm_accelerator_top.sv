@@ -39,7 +39,8 @@ module gemm_accelerator_top #(
   parameter int unsigned M = 4,
   parameter int unsigned N = 4,
   parameter int unsigned K = 4,
-  parameter int unsigned OutDataWidth = 32
+  parameter int unsigned OutDataWidth = 32,
+  parameter int unsigned AddrWidthC = 10
 ) (
   input  logic                            clk_i,
   input  logic                            rst_ni,
@@ -49,7 +50,7 @@ module gemm_accelerator_top #(
   input  logic        [SizeAddrWidth-1:0] N_size_i,
   output logic        [    AddrWidth-1:0] sram_a_addr_o,
   output logic        [    AddrWidth-1:0] sram_b_addr_o,
-  output logic        [    AddrWidth-1:0] sram_c_addr_o,
+  output logic        [   AddrWidthC-1:0] sram_c_addr_o,
   input  logic signed [  InDataWidth*M*K-1:0] sram_a_rdata_i,
   input  logic signed [  InDataWidth*K*N-1:0] sram_b_rdata_i,
   output logic signed [ OutDataWidth*M*N-1:0] sram_c_wdata_o,
