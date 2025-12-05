@@ -1,4 +1,4 @@
-module tb_one_mac_gemm;
+module tb_big_mac_gemm;
   //---------------------------
   // Design Time Parameters
   //---------------------------
@@ -18,17 +18,30 @@ module tb_one_mac_gemm;
   // Or you can also add your own parameters.
   //---------------------------
 
+// ******************************************************************************************************************************************
+// CHANGE THESE PARAMETERS TO MATCH YOUR DESIGN AND YOUR WORKLOAD
+// ******************************************************************************************************************************************
+
+  // Test Parameters
+  parameter int unsigned ThreeCases = 1; // set to 1 for running the three predefined workload cases, set to 0 for single case defined by SingleM, SingleK, SingleN
+  parameter int unsigned SingleM = 32;
+  parameter int unsigned SingleK = 32;
+  parameter int unsigned SingleN = 32;
+
+  // MAC configuration
+  parameter int unsigned M = 2;  // the weight reuse factor
+  parameter int unsigned K = 32; // the output reuse factor
+  parameter int unsigned N = 1;  // the input reuse factor
+
+// ******************************************************************************************************************************************
+
   // General Parameters
   parameter int unsigned InDataWidth    = 8;
   parameter int unsigned goldenTempSize = 1024;
   parameter int unsigned DataDepth      = 64;
   parameter int unsigned AddrWidth      = (DataDepth <= 1) ? 1 : $clog2(DataDepth);
-  parameter int unsigned SizeAddrWidth  = 8;
+  parameter int unsigned SizeAddrWidth  = 7;
 
-  // added ourselves
-  parameter int unsigned M = 2;
-  parameter int unsigned K = 32;
-  parameter int unsigned N = 1;
 
   // Input Data Width Parameters
   parameter int unsigned InDataWidthA = 8 * M * K; // Matrix A
@@ -39,14 +52,7 @@ module tb_one_mac_gemm;
   // Output Data Width Parameters
   parameter int unsigned OutDataWidth = 32; // Matrix C
   
-  // Test Parameters
-  parameter int unsigned MaxNum   = 64;
-  parameter int unsigned ThreeCases = 1; //1;
-  
 
-  parameter int unsigned SingleM = 32;
-  parameter int unsigned SingleK = 32;
-  parameter int unsigned SingleN = 32;
   // parameter int unsigned SingleM = 4;
   // parameter int unsigned SingleK = 8;
   // parameter int unsigned SingleN = 4;
@@ -59,7 +65,9 @@ module tb_one_mac_gemm;
   //---------------------------
   // Size control
   // logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
-  logic [SizeAddrWidth-1:0] M_i, K_i, N_i;
+  logic [$clog2(32):0] M_i;
+  logic [$clog2(64):0] K_i;
+  logic [$clog2(32):0] N_i;
 
   // Removed illegal variable-sized arrays and parameters
   // logic signed [InDataWidth-1:0] orderedA [0:M_i*K_i-1];

@@ -62,6 +62,20 @@ R0
 R0
 R0
 R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
 !s11f vlog 2022.4 2022.10, Oct 18 2022
 13
 !s112 1.1
@@ -84,7 +98,7 @@ n@_opt
 Z7 OL;O;2022.4;75
 R1
 T_opt1
-Z8 !s110 1764797885
+!s110 1764797885
 V6d3S1T7dX1QQ]aWT6Edfk2
 R2
 =1-000ae431a4f1-6930adbd-beb83-76f7
@@ -95,6 +109,19 @@ R5
 R6
 n@_opt1
 R7
+R1
+T_opt2
+Z8 !s110 1764949282
+Vb=cY8h3X?Q>9Imh5ooMlZ0
+04 15 4 work tb_big_mac_gemm fast 0
+=1-000ae431a4f1-6932fd22-7bf02-c9e3
+R0
+R3
+R4
+R5
+R6
+n@_opt2
+R7
 vceiling_counter
 Z9 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
 R8
@@ -103,19 +130,19 @@ R8
 ISoPklI23Q49U79@jAFEn;3
 S1
 Z10 d/users/students/r0885721/Documents/CPAEP
-w1764714031
+w1764846657
 8rtl/common/ceiling_counter.sv
 Frtl/common/ceiling_counter.sv
-!i122 83
+!i122 110
 L0 24 46
 Z11 VDg1SIo80bB@j0V0VzS_@n1
 Z12 OL;L;2022.4;75
 r1
 !s85 0
 31
-Z13 !s108 1764797885.000000
-Z14 !s107 includes/test_func.svh|includes/test_tasks.svh|includes/common_tasks.svh|tb/tb_one_mac_gemm.sv|rtl/common/single_port_memory.sv|rtl/gemm/gemm_accelerator_top.sv|rtl/gemm/gemm_controller.sv|rtl/common/ceiling_counter.sv|rtl/gemm/general_mac_pe.sv|
-Z15 !s90 +cover|+acc|-sv|-f|flists/tb_one_mac_gemm.flist|+incdir+.|
+Z13 !s108 1764949282.000000
+Z14 !s107 includes/test_func.svh|includes/test_tasks.svh|includes/common_tasks.svh|tb/tb_big_mac_gemm.sv|rtl/common/single_port_memory.sv|rtl/gemm/gemm_accelerator_top.sv|rtl/gemm/gemm_controller.sv|rtl/common/ceiling_counter.sv|rtl/gemm/general_mac_pe.sv|
+Z15 !s90 +cover|+acc|-sv|-f|flists/tb_big_mac_gemm.flist|+incdir+.|
 !i113 0
 Z16 !s102 +cover
 Z17 o+cover +acc -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
@@ -125,14 +152,14 @@ vgemm_accelerator_top
 R9
 R8
 !i10b 1
-!s100 6L5V9?272NT5XG7[@cRU73
-IfG`>8158[PJWeme<WI21@3
+!s100 6Bkkd3ma`[bLU`40aoF=:0
+Ij6mlGo0V<8md?a`Y`HK[L3
 S1
 R10
-w1764797796
+w1764847128
 8rtl/gemm/gemm_accelerator_top.sv
 Frtl/gemm/gemm_accelerator_top.sv
-!i122 83
+!i122 110
 L0 35 170
 R11
 R12
@@ -151,15 +178,15 @@ vgemm_controller
 R9
 R8
 !i10b 1
-!s100 C_>;m7nREm6zzkJJhk>:[0
-I72;b3zR4PI3BBme[8iLRb0
+!s100 VUk9WA1Y2aXb:1VgQQ@671
+IH0fW4igS`NNP:LcDUIF_i2
 S1
 R10
-w1764795328
+w1764847143
 8rtl/gemm/gemm_controller.sv
 Frtl/gemm/gemm_controller.sv
-!i122 83
-L0 32 207
+!i122 110
+L0 32 209
 R11
 R12
 r1
@@ -177,14 +204,14 @@ vgeneral_mac_pe
 R9
 R8
 !i10b 1
-!s100 W7>]QAdd?^iTKfFMG4_S<3
-I6GSPEo8c:Sgm>RChYEmb=0
+!s100 Q?W0lO6=EkF@EC`CUkS9g3
+IomWMi12CXJWBJmFc52FPR3
 S1
 R10
-w1764794442
+w1764844794
 8rtl/gemm/general_mac_pe.sv
 Frtl/gemm/general_mac_pe.sv
-!i122 83
+!i122 110
 L0 28 62
 R11
 R12
@@ -210,8 +237,37 @@ R10
 w1764707774
 8rtl/common/single_port_memory.sv
 Frtl/common/single_port_memory.sv
-!i122 83
+!i122 110
 L0 27 29
+R11
+R12
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 0
+R16
+R17
+R18
+R6
+vtb_big_mac_gemm
+R9
+R8
+!i10b 1
+!s100 k@V`2APT[U:F0L4j@Ei<E0
+IX@PDLm5BTBnnASVz29I[P1
+S1
+R10
+w1764949279
+8tb/tb_big_mac_gemm.sv
+Ftb/tb_big_mac_gemm.sv
+Z19 Fincludes/common_tasks.svh
+Z20 Fincludes/test_tasks.svh
+Z21 Fincludes/test_func.svh
+!i122 110
+L0 1 557
 R11
 R12
 r1
@@ -227,7 +283,7 @@ R18
 R6
 vtb_one_mac_gemm
 R9
-R8
+!s110 1764841190
 !i10b 1
 !s100 O[l:;hM<zMhg2DPioLW3a3
 IBjl<[ED>Yg2LY^@^Rbb?S3
@@ -236,19 +292,19 @@ R10
 w1764797786
 8tb/tb_one_mac_gemm.sv
 Ftb/tb_one_mac_gemm.sv
-Fincludes/common_tasks.svh
-Fincludes/test_tasks.svh
-Fincludes/test_func.svh
-!i122 83
+R19
+R20
+R21
+!i122 85
 L0 1 551
 R11
 R12
 r1
 !s85 0
 31
-R13
-R14
-R15
+!s108 1764841190.000000
+!s107 includes/test_func.svh|includes/test_tasks.svh|includes/common_tasks.svh|tb/tb_one_mac_gemm.sv|rtl/common/single_port_memory.sv|rtl/gemm/gemm_accelerator_top.sv|rtl/gemm/gemm_controller.sv|rtl/common/ceiling_counter.sv|rtl/gemm/general_mac_pe.sv|
+!s90 -reportprogress|300|+cover|+acc|-sv|-f|flists/tb_one_mac_gemm.flist|+incdir+.|
 !i113 0
 R16
 R17

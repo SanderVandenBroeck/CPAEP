@@ -2,21 +2,21 @@
 # ** Warning: (vlib-34) Library already exists at "work".
 # Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2022.4 Compiler 2022.10 Oct 18 2022
-# Start time: 22:38:05 on Dec 03,2025
-# vlog "+cover" "+acc" -sv -f flists/tb_one_mac_gemm.flist "+incdir+." 
+# Start time: 16:41:22 on Dec 05,2025
+# vlog "+cover" "+acc" -sv -f flists/tb_big_mac_gemm.flist "+incdir+." 
 # -- Compiling module general_mac_pe
 # -- Compiling module ceiling_counter
 # -- Compiling module gemm_controller
 # -- Compiling module gemm_accelerator_top
 # -- Compiling module single_port_memory
-# -- Compiling module tb_one_mac_gemm
+# -- Compiling module tb_big_mac_gemm
 # 
 # Top level modules:
-# 	tb_one_mac_gemm
-# End time: 22:38:05 on Dec 03,2025, Elapsed time: 0:00:00
+# 	tb_big_mac_gemm
+# End time: 16:41:22 on Dec 05,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vsim -voptargs=""+acc"" -coverage work.tb_one_mac_gemm 
-# Start time: 22:38:05 on Dec 03,2025
+# vsim -voptargs=""+acc"" -coverage work.tb_big_mac_gemm 
+# Start time: 16:41:22 on Dec 05,2025
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
@@ -35,13 +35,15 @@
 # //  18 U.S.C. Section 1905.
 # //
 # Loading sv_std.std
-# Loading work.tb_one_mac_gemm(fast)
+# Loading work.tb_big_mac_gemm(fast)
 # Loading work.single_port_memory(fast)
 # Loading work.single_port_memory(fast__1)
 # Loading work.single_port_memory(fast__2)
 # Loading work.gemm_accelerator_top(fast)
 # Loading work.gemm_controller(fast)
 # Loading work.ceiling_counter(fast)
+# Loading work.ceiling_counter(fast__1)
+# Loading work.ceiling_counter(fast__2)
 # Loading work.general_mac_pe(fast)
 # ---------------------------------------------------
 # Test number: 0
@@ -63,7 +65,7 @@
 # Result matrix C verification passed!
 # ---------------------------------------------------
 # All test tasks completed!
-# ** Note: $finish    : tb/tb_one_mac_gemm.sv(372)
-#    Time: 6866 ns  Iteration: 0  Instance: /tb_one_mac_gemm
-# End time: 22:38:06 on Dec 03,2025, Elapsed time: 0:00:01
+# ** Note: $finish    : tb/tb_big_mac_gemm.sv(378)
+#    Time: 6866 ns  Iteration: 0  Instance: /tb_big_mac_gemm
+# End time: 16:41:23 on Dec 05,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 1

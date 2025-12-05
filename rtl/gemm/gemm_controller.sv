@@ -43,13 +43,13 @@ module gemm_controller #(
   output logic busy_o,
   output logic done_o,
   // The target M, K, and N sizes
-  input  logic [AddrWidth-1:0] M_size_i,
-  input  logic [AddrWidth-1:0] K_size_i,
-  input  logic [AddrWidth-1:0] N_size_i,
+  input  logic [$clog2(32):0] M_size_i,
+  input  logic [$clog2(64):0] K_size_i,
+  input  logic [$clog2(32):0] N_size_i,
   // The the current M, K, and N counts
-  output logic [AddrWidth-1:0] M_count_o,
-  output logic [AddrWidth-1:0] K_count_o,
-  output logic [AddrWidth-1:0] N_count_o
+  output logic [AddrWidth-$clog2(M) -1:0] M_count_o,
+  output logic [AddrWidth-$clog2(K) -1:0] K_count_o,
+  output logic [AddrWidth-$clog2(N) -1:0] N_count_o
 );
 
   //-----------------------
@@ -65,7 +65,9 @@ module gemm_controller #(
   logic clear_counters;
   logic last_counter_last_value;
 
-  logic [AddrWidth-1:0] ceilM, ceilK, ceilN;
+  logic [AddrWidth-$clog2(M)-1:0] ceilM;
+  logic [AddrWidth-$clog2(K)-1:0] ceilK;
+  logic [AddrWidth-$clog2(N)-1:0] ceilN;
   assign ceilM = M_size_i / M;
   assign ceilK = K_size_i / K;
   assign ceilN = N_size_i / N;
@@ -115,7 +117,7 @@ module gemm_controller #(
 
   // K Counter
   ceiling_counter #(
-    .Width        (      AddrWidth ),
+    .Width        (      AddrWidth-$clog2(K) ),
     .HasCeiling   (              1 )
   ) i_K_counter (
     .clk_i        ( clk_i          ),
@@ -129,7 +131,7 @@ module gemm_controller #(
 
   // N Counter
   ceiling_counter #(
-    .Width        (      AddrWidth ),
+    .Width        (      AddrWidth-$clog2(N) ),
     .HasCeiling   (              1 )
   ) i_N_counter (
     .clk_i        ( clk_i          ),
@@ -143,7 +145,7 @@ module gemm_controller #(
 
   // M Counter
   ceiling_counter #(
-    .Width        (               AddrWidth ),
+    .Width        (               AddrWidth-$clog2(M) ),
     .HasCeiling   (                       1 )
   ) i_M_counter (
     .clk_i        ( clk_i                   ),

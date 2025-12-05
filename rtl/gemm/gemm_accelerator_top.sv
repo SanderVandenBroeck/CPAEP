@@ -45,9 +45,9 @@ module gemm_accelerator_top #(
   input  logic                            clk_i,
   input  logic                            rst_ni,
   input  logic                            start_i,
-  input  logic        [SizeAddrWidth-1:0] M_size_i,
-  input  logic        [SizeAddrWidth-1:0] K_size_i,
-  input  logic        [SizeAddrWidth-1:0] N_size_i,
+  input  logic        [$clog2(32):0] M_size_i,
+  input  logic        [$clog2(64):0] K_size_i,
+  input  logic        [$clog2(32):0] N_size_i,
   output logic        [    AddrWidth-1:0] sram_a_addr_o,
   output logic        [    AddrWidth-1:0] sram_b_addr_o,
   output logic        [   AddrWidthC-1:0] sram_c_addr_o,
@@ -61,9 +61,9 @@ module gemm_accelerator_top #(
   //---------------------------
   // Wires
   //---------------------------
-  logic [SizeAddrWidth-1:0] M_count;
-  logic [SizeAddrWidth-1:0] K_count;
-  logic [SizeAddrWidth-1:0] N_count;
+  logic [SizeAddrWidth-$clog2(M)-1:0] M_count;
+  logic [SizeAddrWidth-$clog2(K)-1:0] K_count;
+  logic [SizeAddrWidth-$clog2(N)-1:0] N_count;
   logic busy;
   logic valid_data;
   logic we,move_M_counter;

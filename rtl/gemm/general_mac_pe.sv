@@ -61,7 +61,7 @@ module general_mac_pe #(
   logic acc_valid;
   logic signed [OutDataWidth-1:0] mult_result;
 
-  assign acc_valid = a_valid_i && b_valid_i;
+  assign acc_valid = b_valid_i;
 
   // Combined multiplication
   always_comb begin
@@ -79,8 +79,8 @@ module general_mac_pe #(
       c_o <= mult_result;
     end else if (acc_valid) begin
       c_o <= c_o + mult_result;
-    end else if (acc_clr_i) begin
-      c_o <= '0;
+    // end else if (acc_clr_i) begin
+    //   c_o <= '0;
     end else begin
       c_o <= c_o;
     end
